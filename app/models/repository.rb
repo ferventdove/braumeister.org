@@ -127,6 +127,9 @@ class Repository
       Object.send :remove_const, :Formula
       Object.send :remove_const, :Syck
 
+      $homebrew_path = path
+      require 'sandbox_backtick'
+
       require 'global'
       require 'formula'
 
