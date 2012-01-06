@@ -46,7 +46,7 @@ class Repository
       self.sha  = log[0]
       self.date = Time.at log[1].to_i
 
-      changes = git 'ls-tree --name-only HEAD Library/Formula/*.rb'
+      changes = git 'ls-tree --name-only HEAD Library/Formula/'
       changes = changes.lines.map { |file| ['A', file.strip] }
 
       Rails.logger.info "Checked out #{sha} in #{path}"
