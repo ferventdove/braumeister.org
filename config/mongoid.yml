@@ -1,0 +1,5 @@
+development:
+  uri: mongodb://braumeister:braumeister@localhost:27017/braumeister
+
+production:
+  uri: <%= ENV['MONGOLAB_URI'] %>
