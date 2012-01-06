@@ -123,6 +123,7 @@ class Repository
       pipe_read.close
 
       $LOAD_PATH.unshift File.join(path, 'Library', 'Homebrew')
+
       Object.send :remove_const, :Base64
       Object.send :remove_const, :Formula
       Object.send :remove_const, :Syck
@@ -130,8 +131,8 @@ class Repository
       $homebrew_path = path
       require 'sandbox_backtick'
 
-      require 'global'
-      require 'formula'
+      load File.join(path, 'Library', 'Homebrew', 'global.rb')
+      load File.join(path, 'Library', 'Homebrew', 'formula.rb')
 
       formulae_info = {}
       formulae.each do |name|
