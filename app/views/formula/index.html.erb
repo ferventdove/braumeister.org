@@ -1,0 +1,14 @@
+<h1>
+    Package listing
+    <div id="timestamp">Last updated at <%= l @repository.date, :format => :long %></div>
+</h1>
+
+This is a listing of all packages available via the Homebrew package manager
+for MacOS X. For more information on how to install and use Homebrew see its
+<a href="http://mxcl.github.com/homebrew">homepage</a>.
+
+<%= paginate @formulae %>
+<% @formulae.each do |formula| %>
+    <%= render :partial => 'formula', :locals => { :formula => formula } %>
+<% end %>
+<%= paginate @formulae %>
