@@ -83,7 +83,11 @@ div#content div.formula a {
   font-weight: normal;
 }
 
-div#content div.formula:last-of-type {
+div#content div.listing {
+  padding: 0;
+}
+
+div#content div.listing div.formula:last-child {
   border-bottom: 2px solid #a15f11;
 }
 
@@ -153,12 +157,10 @@ div#header div#social {
   margin: 5em 0 0 2em;
 }
 
-div#timestamp {
+div#timestamps {
   color:       #b5af87;
-  float:       right;
   font-family: 'Helvetica', sans-serif;
   font-size:   9pt;
-  text-shadow: none;
 }
 
 h1 {

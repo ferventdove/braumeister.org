@@ -9,7 +9,8 @@ class Repository
 
   FORMULA_REGEX = /^Library\/Formula\/(.+?)\.rb$/
 
-  field :date, :type => Time, :default => Time.at(0)
+  field :date, :type => Time
+  field :last_update, :type => Time
   field :name, :type => String
   field :sha, :type => String, :default => 'unknown'
   key :name
@@ -95,6 +96,8 @@ class Repository
       end
       formula.save
     end
+
+    self.last_update = Time.now
 
     Rails.logger.info "#{added.size} formulae added, #{modified.size} formulae modified, #{removed.size} formulae removed."
   end
