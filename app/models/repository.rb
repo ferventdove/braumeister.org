@@ -12,17 +12,18 @@ class Repository
   field :date, :type => Time
   field :last_update, :type => Time
   field :name, :type => String
-  field :sha, :type => String, :default => 'unknown'
+  field :sha, :type => String
   key :name
 
   embeds_many :formulae
 
   def clone_or_pull
-    if File.exists? path
+    last_sha = sha
+
+    if !last_sha.nil? && File.exists?(path)
       Rails.logger.info "Pulling changes from #{name} into #{path}"
       git 'fetch --force --quiet origin master'
 
-      last_sha = sha
       log  = git('log -1 --format=format:"%H %ct" FETCH_HEAD').split
       self.sha  = log[0]
 
@@ -31,26 +32,33 @@ class Repository
         return []
       end
 
-      self.date = Time.at log[1].to_i
-
       git 'reset --hard --quiet FETCH_HEAD'
+    else
+      Rails.logger.info "Cloning #{name} into #{path}"
+      git "clone --quiet #{url} #{path}"
+
+      log  = git('log -1 --format=format:"%H %ct" HEAD').split
+      self.sha  = log[0]
+
+      if last_sha == sha
+        Rails.logger.info "Repository #{name} is already up-to-date"
+        return []
+      end
+    end
+
+    self.date = Time.at log[1].to_i
+
+    if last_sha.nil?
+      changes = git 'ls-tree --name-only HEAD Library/Formula/'
+      changes = changes.lines.map { |file| ['A', file.strip] }
+
+      Rails.logger.info "Checked out #{sha} in #{path}"
+    else
       changes = git "diff --name-status #{last_sha}..HEAD"
       changes = changes.lines.map { |file| file.split }
       changes = changes.select { |file| file[1] =~ FORMULA_REGEX }
 
       Rails.logger.info "Updated #{name} from #{last_sha} to #{sha}:"
-    else
-      Rails.logger.info "Cloning #{name} into #{path}"
-      git "clone --depth 1 --quiet #{url} #{path}"
-
-      log  = git('log -1 --format=format:"%H %ct" HEAD').split
-      self.sha  = log[0]
-      self.date = Time.at log[1].to_i
-
-      changes = git 'ls-tree --name-only HEAD Library/Formula/'
-      changes = changes.lines.map { |file| ['A', file.strip] }
-
-      Rails.logger.info "Checked out #{sha} in #{path}"
     end
 
     changes
