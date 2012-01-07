@@ -1,0 +1,1 @@
+Braumeister::Application.config.secret_token = '010b099e0a1bebccf424d3510e73ebd5811805a619b9bcd1fbb11a05ea61eb8eb58d03e301eac78ada87264938ddc68f29c05973540f0306949acfa718c732c5'
