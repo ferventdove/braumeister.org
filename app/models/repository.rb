@@ -73,6 +73,7 @@ class Repository
     removed  = changes.select { |file| file[0] == 'D' }
 
     if changes.size == 0
+      self.last_update = Time.now
       Rails.logger.info 'No formulae changed.'
       return
     end
