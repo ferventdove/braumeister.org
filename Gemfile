@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'bson_ext', '~> 1.5.2'
 gem 'jquery-rails', '~> 1.0.19'
 gem 'kaminari', '~> 0.13.0'
-gem 'mongoid', '~> 2.3.4'
+gem 'mongoid', '~> 2.4.0'
 gem 'rails', '3.1.3'
 gem 'text', '~> 1.0.2'
 
