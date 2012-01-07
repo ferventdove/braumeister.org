@@ -84,6 +84,10 @@ div#content div.formula a {
 }
 
 div#content div.listing {
+  padding: 2em 0;
+}
+
+div#content nav + div.listing {
   padding: 0;
 }
 
@@ -186,7 +190,23 @@ img#github-ribbon {
   z-index:  -1;
 }
 
+input {
+  background:    #232020;
+  border:        1px solid #a15f11;
+  border-radius: 5px;
+  color:         #dd9800;
+  font-size:     12pt;
+  margin:        1.5em 0;
+
+  -moz-border-radius:    5px;
+  -webkit-border-radius: 5px;
+}
+
+input.inactive {
+  color: #555050;
+}
+
 nav {
-  margin:     1em 0 1em 0;
+  margin:     0.5em 0;
   text-align: center;
 }

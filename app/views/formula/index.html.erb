@@ -1,8 +1,16 @@
+<script type="text/javascript">
+  $(formHandler);
+</script>
+
 <h1>Package listing</h1>
 
 This is a listing of all packages available via the Homebrew package manager
 for MacOS X. For more information on how to install and use Homebrew see its
 <a href="http://mxcl.github.com/homebrew">homepage</a>.
+
+<form action="<%= root_path %>">
+  <input id="search" name="search" type="text" value="<%= params[:search] || 'search&hellip;'.html_safe %>" />
+</form>
 
 <%= paginate @formulae %>
 
