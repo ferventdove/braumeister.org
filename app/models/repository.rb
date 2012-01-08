@@ -76,10 +76,6 @@ class Repository
   def refresh
     changes = clone_or_pull
 
-    added    = changes.select { |file| file[0] == 'A' }
-    modified = changes.select { |file| file[0] == 'M' }
-    removed  = changes.select { |file| file[0] == 'D' }
-
     if changes.size == 0
       self.last_update = Time.now
       Rails.logger.info 'No formulae changed.'
@@ -93,12 +89,21 @@ class Repository
 
     formulae_info = formulae_info updated_formulae
 
+    added = modified = removed = 0
     changes.each do |type, fpath|
       formula = formulae.find_or_create_by :name => fpath.match(FORMULA_REGEX)[1]
       formula.repository = self if formula.new_record?
       if type == 'D'
         formula.removed = true
+        Rails.logger.debug "Removed formula #{formula.name}."
       else
+        if type == 'A'
+          added += 1
+          Rails.logger.debug "Added formula #{formula.name}."
+        else
+          modified += 1
+          Rails.logger.debug "Updated formula #{formula.name}."
+        end
         formula.homepage = formulae_info[formula.name][:homepage]
         formula.removed  = false
         formula.version  = formulae_info[formula.name][:version]
@@ -108,7 +113,7 @@ class Repository
 
     self.last_update = Time.now
 
-    Rails.logger.info "#{added.size} formulae added, #{modified.size} formulae modified, #{removed.size} formulae removed."
+    Rails.logger.info "#{added} formulae added, #{modified} formulae modified, #{removed} formulae removed."
   end
 
   def url
