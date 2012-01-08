@@ -5,7 +5,7 @@
 
 require 'text'
 
-class FormulaController < ApplicationController
+class FormulaeController < ApplicationController
 
   def index
     @repository = Repository.where(:name => 'mxcl/homebrew').first
