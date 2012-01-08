@@ -32,7 +32,7 @@ class Repository
         return []
       end
 
-      git 'reset --hard --quiet FETCH_HEAD'
+      git "--work-tree #{path} reset --hard --quiet FETCH_HEAD"
     else
       Rails.logger.info "Cloning #{name} into #{path}"
       git "clone --quiet #{url} #{path}"
