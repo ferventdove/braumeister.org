@@ -11,11 +11,11 @@ class FormulaeController < ApplicationController
     @repository = Repository.where(:name => 'mxcl/homebrew').first
 
     if params[:search].nil? || params[:search].to_s.empty?
-      @formulae = @repository.formulae.page(params[:page]).per(50)
+      @formulae = @repository.formulae.order_by([:name, :asc]).page(params[:page]).per(50)
     else
       term = params[:search]
       @formulae = @repository.formulae.where(:name => /#{term}/i)
-      @formulae = @formulae.sort_by do |formula|
+      @formulae = @formulae.order_by([:name, :asc]).sort_by do |formula|
         Text::Levenshtein.distance(formula.name, term) +
         Text::Levenshtein.distance(formula.name[0..term.size - 1], term)
       end
