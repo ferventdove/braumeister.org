@@ -111,12 +111,6 @@ class Repository
     Rails.logger.info "#{added.size} formulae added, #{modified.size} formulae modified, #{removed.size} formulae removed."
   end
 
-  def refresh_formula(formula)
-    original_formula = @sandbox::Formula.factory formula.name
-    formula.homepage = original_formula.homepage
-    formula.version = original_formula.version
-  end
-
   def url
     "git://github.com/#{name}.git"
   end
