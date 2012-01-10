@@ -63,7 +63,7 @@ class Repository
       Rails.logger.info "Updated #{name} from #{last_sha} to #{sha}:"
     end
 
-    return changes, last_sha
+    changes
   end
 
   def formula_files
@@ -112,7 +112,7 @@ class Repository
   end
 
   def refresh
-    changes, last_sha = clone_or_pull
+    changes = clone_or_pull
 
     if changes.size == 0
       self.last_update = Time.now
@@ -129,8 +129,7 @@ class Repository
 
     added = modified = removed = 0
     changes.each do |type, fpath|
-      formula = formulae.find_or_create_by :name => fpath.match(FORMULA_REGEX)[1]
-      formula.generate_history last_sha
+      formula = formulae.find_or_initialize_by :name => fpath.match(FORMULA_REGEX)[1]
       if type == 'D'
         formula.removed = true
         Rails.logger.debug "Removed formula #{formula.name}."
