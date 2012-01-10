@@ -14,9 +14,10 @@ class Formula
   key :name
 
   embedded_in :repository
+  has_and_belongs_to_many :revisions
 
   def path
-    File.join(repository.path, 'Library', 'Formula', name) + '.rb'
+    File.join('Library', 'Formula', name) + '.rb'
   end
 
 end

@@ -7,7 +7,7 @@ class Repository
 
   include Mongoid::Document
 
-  FORMULA_REGEX = /^Library\/Formula\/(.+?)\.rb$/
+  FORMULA_REGEX = /^(?:Library\/)?Formula\/(.+?)\.rb$/
 
   field :date, :type => Time
   field :last_update, :type => Time
@@ -16,6 +16,8 @@ class Repository
   key :name
 
   embeds_many :formulae
+  has_many :authors
+  has_many :revisions
 
   def clone_or_pull
     last_sha = sha
@@ -61,7 +63,7 @@ class Repository
       Rails.logger.info "Updated #{name} from #{last_sha} to #{sha}:"
     end
 
-    changes
+    return changes, last_sha
   end
 
   def formula_files
@@ -69,12 +71,48 @@ class Repository
     files.map { |f| File.basename f, '.rb' }
   end
 
+  def generate_history!
+    Rails.logger.info "Resetting history of #{name}"
+    self.formulae.each { |f| f.revisions.nullify }
+    self.revisions.destroy
+    self.authors.destroy
+
+    log = git "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse HEAD -- 'Formula/*.rb' 'Library/Formula/*.rb'"
+    revisions = []
+    commits = log.split(/\n\n/)
+    commits.each do |commit|
+      commit = commit.lines.to_a
+      info, formulae = commit.shift.strip.split("\x00"), commit
+      rev = self.revisions.build :sha => info[0]
+      rev.author = self.authors.find_or_initialize_by :email => info[2]
+      rev.author.name = info[3]
+      rev.author.save!
+      rev.date = info[1].to_i
+      rev.subject = info[4]
+      rev.save!
+      revisions << rev
+      formulae.each do |formula|
+        formula = self.formulae.where(:name => formula.split[1].sub(FORMULA_REGEX, '\1')).first
+        next if formula.nil?
+        formula.revisions << rev
+      end
+    end
+    self.revisions = revisions
+    save!
+  end
+
+  def git(command)
+    command = "git --git-dir #{path}/.git #{command}"
+    Rails.logger.debug "Executing `#{command}`"
+    `#{command}`.strip
+  end
+
   def path
     "#{Braumeister::Application.tmp_path}/repos/#{name}"
   end
 
   def refresh
-    changes = clone_or_pull
+    changes, last_sha = clone_or_pull
 
     if changes.size == 0
       self.last_update = Time.now
@@ -92,7 +130,7 @@ class Repository
     added = modified = removed = 0
     changes.each do |type, fpath|
       formula = formulae.find_or_create_by :name => fpath.match(FORMULA_REGEX)[1]
-      formula.repository = self if formula.new_record?
+      formula.generate_history last_sha
       if type == 'D'
         formula.removed = true
         Rails.logger.debug "Removed formula #{formula.name}."
@@ -121,12 +159,6 @@ class Repository
   end
 
   private
-
-  def git(command)
-    command = "git --git-dir #{path}/.git #{command}"
-    Rails.logger.debug "Executing `#{command}`"
-    `#{command}`.strip
-  end
 
   def formulae_info(formulae)
     pipe_read, pipe_write = IO.pipe
