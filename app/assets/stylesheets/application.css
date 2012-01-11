@@ -111,7 +111,7 @@ div#content div.formula a {
 }
 
 div#content div.listing {
-  padding: 2em 0;
+  padding:    2em 0;
 }
 
 div#content nav + div.listing {
@@ -120,6 +120,11 @@ div#content nav + div.listing {
 
 div#content div.listing div.formula:last-child {
   border-bottom: 2px solid #a15f11;
+}
+
+div#content div.error {
+  font-weight: bold;
+  text-align:  center;
 }
 
 div#flash-error, div#flash-notice {

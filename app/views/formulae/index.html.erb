@@ -12,15 +12,20 @@ for MacOS X. For more information on how to install and use Homebrew see its
   <input id="search" name="search" type="text" value="<%= params[:search] || 'search&hellip;'.html_safe %>" />
 </form>
 
-<%= paginate @formulae %>
+  <% if @formulae.empty? %>
+    <div class="error">Sorry, no formulae are matching your search.</div>
+  <% else %>
+    <%= paginate @formulae %>
 
-<div class="listing">
-  <% @formulae.each do |formula| %>
-    <%= render :partial => 'formula', :locals => { :formula => formula } %>
+    <div class="listing">
+    <% @formulae.each do |formula| %>
+      <%= render :partial => 'formula', :locals => { :formula => formula } %>
+    <% end %>
+    </div>
+
+    <%= paginate @formulae %>
   <% end %>
-</div>
 
-<%= paginate @formulae %>
 
 <div id="timestamps">
   Last updated at <%= l @repository.last_update, :format => :long %><br />
