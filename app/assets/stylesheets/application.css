@@ -13,16 +13,39 @@ body {
 }
 
 a {
-  font-weight: bold;
+  color:           #dd9800;
+  font-style:      normal;
+  font-weight:     bold;
+  text-decoration: none;
 }
 
-a:hover, a.active {
-  color: #aa5 !important;
+a:hover, a:active {
+  color: #ffb !important;
 }
 
-a {
-  color:      #dd9800;
-  font-style: normal;
+div#basic h2:last-child {
+  margin-bottom: 0.2em;
+}
+
+div#basic, div#last-change, div#history {
+  background:    #595945;
+  border-radius: 4px;
+  box-shadow:    #232020 3px 3px 3px;
+  padding:       0.8em !important;
+  margin:        1em 0.5em;
+
+  -moz-border-radius:    4px;
+  -moz-box-shadow:       #232020 3px 3px 3px;
+  -webkit-border-radius: 4px;
+  -webkit-box-shadow:    #232020 3px 3px 3px;
+}
+
+div#change-info {
+  padding-left: 2em !important;
+}
+
+div#basic a:hover, div#change-info a:hover {
+  color: #ffb;
 }
 
 div#content {
@@ -38,6 +61,18 @@ div#content {
   -moz-box-shadow:       #000 4px 4px 4px;
   -webkit-border-radius: 4px 4px 0 0;
   -webkit-box-shadow:    #000 4px 4px 4px;
+}
+
+div#content a.formula {
+  color:       #dd9800;
+  font-family: 'Neuton', serif;
+  font-size:   1.5em;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #000000;
+}
+
+div#content a.formula:hover {
+  color: #ffb;
 }
 
 div#content div {
@@ -67,15 +102,7 @@ div#content div.formula.odd {
   background: #595945;
 }
 
-div#content div.formula span.name {
-  color:       #dd9800;
-  font-family: 'Neuton', serif;
-  font-size:   1.5em;
-  font-weight: bold;
-  text-shadow: 1px 1px 1px #000000;
-}
-
-div#content div.formula span.version {
+div#content div.formula strong.version {
   color: #dd9800;
 }
 
@@ -103,7 +130,7 @@ div#flash-error, div#flash-notice {
   font-size:     12pt;
   font-weight:   bold;
   left:          -2em;
-  margin:        -3.5em 0 0 289px;
+  margin:        -1em 0 0 289px;
   padding:       2px !important;
   position:      absolute;
   text-align:    center;
@@ -151,6 +178,50 @@ div#header img {
   margin: -0.2em -0.5em 0 -0.1em;
 }
 
+div#history table {
+  border-collapse: collapse;
+  width:           100%;
+}
+
+div#history td {
+  font-size:      10pt;
+  padding:        1pt 3pt;
+  position:       relative;
+  vertical-align: top;
+}
+
+div#history td.author {
+  font-weight:    bold;
+}
+
+div#history td.subject {
+  font-family: monospace;
+  font-size:   9pt;
+  width:       60%;
+}
+
+div#history tr:not(:last-child) {
+  border-bottom: 1px solid #595945;
+}
+
+div#history tr:hover {
+  background: #737359;
+  color:      #ffb;
+}
+
+div#history a {
+  height:   100%;
+  position: absolute;
+  width:    100%;
+}
+
+div#last-change strong.subject {
+  display:       block;
+  font-family:   monospace;
+  margin-bottom: 1em;
+  padding-left:  1em;
+}
+
 div#social {
   float:       left;
   font-size:   10pt;
@@ -171,11 +242,22 @@ h1 {
   color:           #dd9800;
   border-bottom:   2px solid #b5af87;
   font-family:     'Neuton', serif;
-  font-size:       25pt;
+  font-size:       28pt;
   font-weight:     normal;
-  line-height:     25pt;
+  line-height:     28pt;
   text-decoration: none;
   text-shadow:     #000 2px 2px 1px;
+}
+
+h2 {
+  color:     #ffb;
+  font-size: 15pt;
+  margin:    0 0 1em 0;
+}
+
+h2 em {
+  color:       #dd9800;
+  text-shadow: #000 2px 2px 1px;
 }
 
 img {

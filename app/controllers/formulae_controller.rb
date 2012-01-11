@@ -15,12 +15,24 @@ class FormulaeController < ApplicationController
     else
       term = params[:search]
       @formulae = @repository.formulae.where(:name => /#{term}/i)
+
+      if @formulae.size == 1 && term == @formulae.first.name
+        redirect_to formula_path(@formulae.first)
+      end
+
       @formulae = @formulae.order_by([:name, :asc]).sort_by do |formula|
         Text::Levenshtein.distance(formula.name, term) +
         Text::Levenshtein.distance(formula.name[0..term.size - 1], term)
       end
       @formulae = Kaminari.paginate_array(@formulae).page(params[:page]).per(50)
     end
+  end
+
+  def show
+    @repository = Repository.where(:name => 'mxcl/homebrew').first
+    @formula = @repository.formulae.find params[:id]
+    @revisions = @formula.revisions.order_by([:date, :desc]).to_a
+    @current_revision = @revisions.shift
   end
 
 end

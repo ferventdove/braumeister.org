@@ -10,4 +10,8 @@ Braumeister::Application.routes.draw do
     get 'search/:search', :action => :index, :on => :collection
   end
 
+  resources :formulae, :only => :show, :path => 'formula'
+
+  match '*url', :to => 'application#not_found'
+
 end

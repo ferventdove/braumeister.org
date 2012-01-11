@@ -1,5 +1,5 @@
 <div class="formula <%= cycle 'even', 'odd' %>">
-    <span class="name"><%= formula.name %></span><br />
-    Current version: <span class="version"><%= formula.version %></span><br />
+    <%= link_to formula.name, formula, :class => 'formula' %><br />
+    Current version: <strong class="version"><%= formula.version %></strong><br />
     Homepage: <%= link_to formula.homepage %>
 </div>
