@@ -11,10 +11,12 @@ class FormulaeController < ApplicationController
     @repository = Repository.where(:name => 'mxcl/homebrew').first
 
     if params[:search].nil? || params[:search].to_s.empty?
-      @formulae = @repository.formulae.order_by([:name, :asc]).page(params[:page]).per(50)
+      @formulae = @repository.formulae.order_by([:name, :asc]).
+        where(:removed => false).page(params[:page]).per(50)
     else
       term = params[:search]
-      @formulae = @repository.formulae.where(:name => /#{term}/i)
+      @formulae = @repository.formulae.
+        where(:name => /#{term}/i, :removed => false)
 
       if @formulae.size == 1 && term == @formulae.first.name
         redirect_to formula_path(@formulae.first)
