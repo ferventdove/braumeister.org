@@ -83,7 +83,9 @@ class Repository
   def generate_history(last_sha = nil)
     ref = last_sha.nil? ? 'HEAD' : "#{last_sha}..HEAD"
 
-    log = git "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse #{ref} -- 'Formula/*.rb' 'Library/Formula/*.rb'"
+    Rails.logger.info "Regenerating history for #{ref}"
+
+    log = git "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse #{ref} -- 'Formula' 'Library/Formula'"
     revisions = []
     commits = log.split(/\n\n/)
     commits.each do |commit|
