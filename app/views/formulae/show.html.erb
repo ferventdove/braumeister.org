@@ -1,0 +1,39 @@
+<h1><%= @formula.name %></h1>
+
+<div id="basic">
+  <h2>Current Version: <em><%= @formula.version %></em></h2>
+  <h2>Homepage: <em><%= link_to @formula.homepage, @formula.homepage %></em></h2>
+</div>
+
+<div id="last-change">
+  <h2>Last change</h2>
+  <strong class="subject"><%= @current_revision.subject %></strong>
+  <div id="change-info">
+    by <strong><%= @current_revision.author.name %></strong>
+    at <strong><%= l @current_revision.date, :format => :long %></strong><br />
+    Git commit SHA: <%= link_to @current_revision.sha, "https://github.com/#{@repository.name}/commit/#{@current_revision.sha}##{@formula.path}" %>
+  </div>
+</div>
+
+<% unless @revisions.empty? %>
+<div id="history">
+  <h2>Past formula history</h2>
+  <table>
+  <% @revisions.each do |rev| %>
+    <tr>
+      <td class="author">
+        <%= link_to '', "https://github.com/#{@repository.name}/commit/#{rev.sha}##{@formula.path}" %>
+        <%= rev.author.name %></td>
+      <td class="subject">
+        <%= link_to '', "https://github.com/#{@repository.name}/commit/#{rev.sha}##{@formula.path}" %>
+        <%= rev.subject %>
+      </td>
+      <td class="date">
+        <%= link_to '', "https://github.com/#{@repository.name}/commit/#{rev.sha}##{@formula.path}" %>
+        <%= l rev.date, :format => :long %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<% end %>
