@@ -72,6 +72,8 @@ class Repository
   end
 
   def generate_history!
+    clone_or_pull
+
     Rails.logger.info "Resetting history of #{name}"
     self.formulae.each { |f| f.revisions.nullify }
     self.revisions.destroy
