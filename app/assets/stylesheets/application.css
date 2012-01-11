@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Neuton:800);
+@import url(http://fonts.googleapis.com/css?family=Neuton:400,800);
 
 html {
   background: #353030;
@@ -66,8 +66,7 @@ div#content {
 div#content a.formula {
   color:       #dd9800;
   font-family: 'Neuton', serif;
-  font-size:   1.5em;
-  font-weight: bold;
+  font-size:   1.8em;
   text-shadow: 1px 1px 1px #000000;
 }
 
@@ -170,7 +169,7 @@ div#header {
   text-align:  right;
   font-family: 'Neuton', 'Times New Roman', serif;
   font-size:   7em;
-  font-weight: bold;
+  font-weight: bolder;
   text-shadow: #000 10px 10px 1px;
 }
 
@@ -248,7 +247,6 @@ h1 {
   border-bottom:   2px solid #b5af87;
   font-family:     'Neuton', serif;
   font-size:       28pt;
-  font-weight:     normal;
   line-height:     28pt;
   text-decoration: none;
   text-shadow:     #000 2px 2px 1px;
