@@ -32,7 +32,10 @@ class FormulaeController < ApplicationController
 
   def show
     @repository = Repository.where(:name => 'mxcl/homebrew').first
-    @formula = @repository.formulae.find params[:id]
+    @formula = @repository.formulae.where(:name => params[:id]).first
+    if @formula.nil?
+      raise Mongoid::Errors::DocumentNotFound.new(Formula, params[:id])
+    end
     @revisions = @formula.revisions.order_by([:date, :desc]).to_a
     @current_revision = @revisions.shift
   end

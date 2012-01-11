@@ -13,6 +13,8 @@ class Formula
   field :version, :type => String
   key :name
 
+  alias_method :to_param, :name
+
   embedded_in :repository
   has_and_belongs_to_many :revisions
 
