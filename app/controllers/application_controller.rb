@@ -9,8 +9,12 @@ class ApplicationController < ActionController::Base
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found
 
   def not_found
-    flash[:error] = 'The page you requested does not exist.'
-    redirect_to '/'
+    flash.now[:error] = 'The page you requested does not exist.'
+
+    index
+
+    expires_in 5.minutes
+    render :index, :status => :not_found
   end
 
 end
