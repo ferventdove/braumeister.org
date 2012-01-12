@@ -6,11 +6,11 @@
 class Repository
 
   include Mongoid::Document
+  include Mongoid::Timestamps::Updated
 
   FORMULA_REGEX = /^(?:Library\/)?Formula\/(.+?)\.rb$/
 
   field :date, :type => Time
-  field :last_update, :type => Time
   field :name, :type => String
   field :sha, :type => String
   key :name
@@ -159,8 +159,6 @@ class Repository
     end
 
     generate_history last_sha
-
-    self.last_update = Time.now
 
     Rails.logger.info "#{added} formulae added, #{modified} formulae modified, #{removed} formulae removed."
   end
