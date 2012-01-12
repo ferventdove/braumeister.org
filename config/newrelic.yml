@@ -7,3 +7,5 @@
   app_name: <%= ENV["NEW_RELIC_APPNAME"] %>
   capture_params: true
   log_level: warn
+  background:
+    monitor_mode: true
