@@ -14,8 +14,10 @@ for MacOS X. For more information on how to install and use Homebrew see its
 
   <% if @formulae.empty? %>
     <div class="error">Sorry, no formulae are matching your search.</div>
-  <% else %>
-    <%= paginate @formulae %>
+  <% else
+    pagination = paginate @formulae,
+      :params => { :controller => :formulae, :action => :index, :id => nil } %>
+    <%= pagination %>
 
     <div class="listing">
     <% @formulae.each do |formula| %>
@@ -23,7 +25,7 @@ for MacOS X. For more information on how to install and use Homebrew see its
     <% end %>
     </div>
 
-    <%= paginate @formulae %>
+    <%= pagination %>
   <% end %>
 
 
