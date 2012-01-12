@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found
 
   def not_found
+    unless respond_to? :index
+      render :nothing => true, :status => :not_found
+      return
+    end
+
     flash.now[:error] = 'The page you requested does not exist.'
 
     index
