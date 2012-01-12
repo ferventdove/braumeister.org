@@ -8,8 +8,6 @@ require 'text'
 class FormulaeController < ApplicationController
 
   def index
-    expires_in 10.minutes, :public => true
-
     @repository = Repository.where(:name => 'mxcl/homebrew').first
 
     if params[:search].nil? || params[:search].to_s.empty?
@@ -30,11 +28,11 @@ class FormulaeController < ApplicationController
       end
       @formulae = Kaminari.paginate_array(@formulae).page(params[:page]).per(50)
     end
+
+    fresh_when :etag => @repository.sha, :public => true
   end
 
   def show
-    expires_in 10.minutes, :public => true
-
     @repository = Repository.where(:name => 'mxcl/homebrew').first
     @formula = @repository.formulae.where(:name => params[:id]).first
     if @formula.nil?
@@ -42,6 +40,8 @@ class FormulaeController < ApplicationController
     end
     @revisions = @formula.revisions.order_by([:date, :desc]).to_a
     @current_revision = @revisions.shift
+
+    fresh_when :etag => @current_revision.sha, :public => true
   end
 
 end
