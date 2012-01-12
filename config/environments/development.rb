@@ -13,4 +13,6 @@ Braumeister::Application.configure do
   config.assets.compress = false
 
   config.assets.debug = true
+
+  config.mongoid.preload_models = false
 end
