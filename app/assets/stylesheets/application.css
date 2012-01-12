@@ -27,6 +27,10 @@ div#basic h2:last-child {
   margin-bottom: 0.2em;
 }
 
+div#basic h2.removed:first-line {
+  color: #d00 !important;
+}
+
 div#basic, div#last-change, div#history {
   background:    #595945;
   border-radius: 4px;
