@@ -8,6 +8,8 @@ require 'text'
 class FormulaeController < ApplicationController
 
   def index
+    expires_in 10.minutes, :public => true
+
     @repository = Repository.where(:name => 'mxcl/homebrew').first
 
     if params[:search].nil? || params[:search].to_s.empty?
@@ -31,6 +33,8 @@ class FormulaeController < ApplicationController
   end
 
   def show
+    expires_in 10.minutes, :public => true
+
     @repository = Repository.where(:name => 'mxcl/homebrew').first
     @formula = @repository.formulae.where(:name => params[:id]).first
     if @formula.nil?

@@ -35,6 +35,7 @@ GEM
       bson (= 1.5.2)
     builder (3.0.0)
     daemons (1.1.4)
+    dalli (1.1.4)
     erubis (2.7.0)
     eventmachine (0.12.10)
     execjs (1.2.13)
@@ -120,6 +121,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext (~> 1.5.2)
+  dalli (~> 1.1.4)
   jquery-rails (~> 1.0.19)
   kaminari (~> 0.13.0)
   mongoid (~> 2.4.0)

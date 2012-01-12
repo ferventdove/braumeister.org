@@ -15,4 +15,9 @@ Braumeister::Application.configure do
   config.active_support.deprecation = :notify
 
   config.log_level = :warn
+
+  config.cache_store = :dalli_store, {
+    :metastore   => "memcached://#{ENV['MEMCACHE_SERVERS']}/meta",
+    :entitystore => "memcached://#{ENV['MEMCACHE_SERVERS']}/body"
+  }
 end
