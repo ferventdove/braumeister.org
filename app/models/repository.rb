@@ -125,7 +125,6 @@ class Repository
     changes, last_sha = clone_or_pull
 
     if changes.size == 0
-      self.last_update = Time.now
       Rails.logger.info 'No formulae changed.'
       return
     end
