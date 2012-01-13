@@ -1,3 +1,4 @@
+//= require flattr
 //= require jquery
 //= require jquery_ujs
 
