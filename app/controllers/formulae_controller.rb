@@ -12,11 +12,11 @@ class FormulaeController < ApplicationController
 
     if params[:search].nil? || params[:search].to_s.empty?
       @formulae = @repository.formulae.order_by([:name, :asc]).
-        where(:removed => false).page(params[:page]).per(50)
+        where :removed => false
     else
       term = params[:search]
       @formulae = @repository.formulae.
-        where(:name => /#{term}/i, :removed => false)
+        where :name => /#{term}/i, :removed => false
 
       if @formulae.size == 1 && term == @formulae.first.name
         redirect_to formula_path(@formulae.first)
@@ -26,8 +26,10 @@ class FormulaeController < ApplicationController
         Text::Levenshtein.distance(formula.name, term) +
         Text::Levenshtein.distance(formula.name[0..term.size - 1], term)
       end
-      @formulae = Kaminari.paginate_array(@formulae).page(params[:page]).per(50)
+      @formulae = Kaminari.paginate_array @formulae
     end
+
+    @formulae = @formulae.page(params[:page]).per 50
 
     fresh_when :etag => @repository.sha, :public => true
   end
