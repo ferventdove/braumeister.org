@@ -34,7 +34,7 @@ GEM
     bson_ext (1.5.2)
       bson (= 1.5.2)
     builder (3.0.0)
-    daemons (1.1.4)
+    daemons (1.1.5)
     dalli (1.1.4)
     erubis (2.7.0)
     eventmachine (0.12.10)
