@@ -1,0 +1,46 @@
+<div id="home">
+  <strong>braumeister.org</strong> is an online package browser for
+  <%= link_to 'Homebrew', 'http://mxcl.github.com/homebrew' %> – the MacOS X
+  package manager.<br />
+  For more information on how to install and use Homebrew see its homepage.
+
+
+  <%= link_to 'Browse all packages', :formulae, :class => 'center' %>
+</div>
+
+<div class="recently-added">
+  <h3>Recently added formulae</h3>
+  <div class="listing">
+    <% @added.each do |formula| %>
+      <%= render :partial => 'recent', :locals => { :formula => formula } %>
+    <% end %>
+  </div>
+</div>
+
+<% reset_cycle %>
+
+<div class="recently-updated">
+  <h3>Recently updated formulae</h3>
+  <div class="listing">
+    <% @updated.each do |formula| %>
+      <%= render :partial => 'recent', :locals => { :formula => formula } %>
+    <% end %>
+  </div>
+</div>
+
+<% reset_cycle %>
+
+<div class="recently-removed">
+  <h3>Recently removed formulae</h3>
+  <div class="listing">
+    <% @removed.each do |formula| %>
+      <%= render :partial => 'recent', :locals => { :formula => formula } %>
+    <% end %>
+  </div>
+</div>
+
+<div id="timestamps">
+  Last updated at <%= l @repository.updated_at, :format => :long %><br />
+  Last change at <%= l @repository.date, :format => :long %><br />
+  Current Git commit SHA: <%= link_to @repository.sha, "https://github.com/#{@repository.name}/tree/#{@repository.sha}" %>
+</div>

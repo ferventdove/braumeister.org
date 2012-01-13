@@ -226,6 +226,19 @@ div#history a {
   width:    100%;
 }
 
+div#home {
+  border-bottom: 1px solid #a15f11;
+  text-align:    center;
+}
+
+div#home a.center {
+  display:     block;
+  font-family: 'Neuton', serif;
+  font-size:   22pt;
+  margin:      1.5em 0 1em 0;
+  text-shadow: 1px 1px 1px #000000;
+}
+
 div#last-change strong.subject {
   display:       block;
   font-family:   monospace;
@@ -244,9 +257,53 @@ div#header div#social {
 }
 
 div#timestamps {
+  border-top:  1px solid #a15f11;
   color:       #b5af87;
   font-family: 'Helvetica', sans-serif;
   font-size:   9pt;
+  margin:      0 auto;
+  padding-top: 2em !important;
+  width:       80%;
+}
+
+div.recently-added h3, div.recently-removed h3, div.recently-updated h3 {
+  text-align:  center;
+  text-shadow: 1px 1px 1px #000000;
+}
+
+div.recently-added h3 {
+  color: #44cc44;
+}
+
+div.recently-removed h3 {
+  color: #cc4444;
+}
+
+div.recently-added, div.recently-removed, div.recently-updated {
+  float: left;
+  width: 31%;
+}
+
+div.recently-added div.listing, div.recently-removed div.listing,
+div.recently-updated div.listing {
+  border-radius: 4px;
+  height:        13.8em;
+  margin:        0.5em !important;
+  padding:       0 !important;
+
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+div.recently-added div.formula strong, div.recently-updated div.formula strong,
+div.recently-removed div.formula strong {
+  float:          right;
+  line-height:    1.8em;
+  vertical-align: middle;
+}
+
+div.recently-removed + * {
+  clear: both;
 }
 
 h1 {
@@ -268,6 +325,10 @@ h2 {
 h2 em {
   color:       #dd9800;
   text-shadow: #000 2px 2px 1px;
+}
+
+h3 {
+  font-size: 12pt;
 }
 
 img {

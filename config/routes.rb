@@ -5,12 +5,17 @@
 
 Braumeister::Application.routes.draw do
 
-  resources :formulae, :only => :index, :path => '' do
-    get 'page/:page', :action => :index, :on => :collection
-    get 'search/:search', :action => :index, :on => :collection
+  resources :formulae, :only => :index, :path => 'browse' do
+    get ':page', :action => :index, :on => :collection
+  end
+
+  resources :formulae, :only => :index, :path => 'search' do
+    get ':search', :action => :index, :on => :collection
   end
 
   resources :formulae, :only => :show, :path => 'formula'
+
+  root :to => 'home#index'
 
   match '*url', :to => 'application#not_found'
 

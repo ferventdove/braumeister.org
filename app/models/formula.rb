@@ -6,6 +6,7 @@
 class Formula
 
   include Mongoid::Document
+  include Mongoid::Timestamps::Updated
 
   field :removed, :type => Boolean
   field :name, :type => String
