@@ -90,9 +90,6 @@ div#content, div#footer {
 }
 
 div#content div.formula {
-  border-left:  2px solid #a15f11;
-  border-right: 2px solid #a15f11;
-  border-top:   2px solid #a15f11;
   color:        #b5af87;
   font-size:    0.8em;
 }
@@ -114,26 +111,16 @@ div#content div.formula a {
 }
 
 div#content div.listing {
-  padding:    2em 0;
+  border:        2px solid #a15f11;
+  border-radius: 4px;
+  margin:        2em 0;
+
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
 }
 
 div#content nav + div.listing {
   padding: 0;
-}
-
-div#content div.listing div.formula:first-child {
-  border-radius: 4px 4px 0 0;
-
-  -moz-border-radius: 4px 4px 0 0;
-  -webkit-border-radius: 4px 4px 0 0;
-}
-
-div#content div.listing div.formula:last-child {
-  border-bottom: 2px solid #a15f11;
-  border-radius: 0 0 4px 4px;
-
-  -moz-border-radius: 0 0 4px 4px;
-  -webkit-border-radius: 0 0 4px 4px;
 }
 
 div#content div.error {
