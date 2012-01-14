@@ -23,7 +23,7 @@ for MacOS X.
   <div class="error">Sorry, no formulae are matching your search.</div>
 <% else
   page_params = { :controller => :formulae, :action => :index, :id => nil }
-  if params.key? :search && !params[:search].empty?
+  if params.key?(:search) && !params[:search].empty?
     page_params[:use_route] = :search_formulae
   end
   pagination = paginate @formulae, :params => page_params %>
