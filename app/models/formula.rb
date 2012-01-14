@@ -28,11 +28,7 @@ class Formula
   end
 
   def self.letter(letter)
-    name_starts_with(letter).order_by([:name, :asc])
-  end
-
-  def self.name_starts_with(letter)
-    where(name: /^#{letter}/)
+    where(name: /^#{letter}/).order_by([:name, :asc])
   end
 
 end
