@@ -9,10 +9,9 @@ class FormulaeController < ApplicationController
 
   def index
     @repository = Repository.where(:name => 'mxcl/homebrew').first
-    @letter     = @repository.formulae.letterize(params[:letter])
 
     if params[:search].nil? || params[:search].to_s.empty?
-      @formulae = @repository.formulae.letter(@letter).
+      @formulae = @repository.formulae.letter(params[:letter]).
         where :removed => false
     else
       term = params[:search]
