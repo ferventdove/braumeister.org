@@ -8,10 +8,10 @@ class Formula
   include Mongoid::Document
   include Mongoid::Timestamps::Updated
 
-  field :removed, :type => Boolean
-  field :name, :type => String
-  field :homepage, :type => String
-  field :version, :type => String
+  field :removed, type: Boolean
+  field :name, type: String
+  field :homepage, type: String
+  field :version, type: String
   key :name
 
   alias_method :to_param, :name

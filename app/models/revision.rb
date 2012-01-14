@@ -7,9 +7,9 @@ class Revision
 
   include Mongoid::Document
 
-  field :date, :type => Time
-  field :subject, :type => String
-  field :sha, :type => String
+  field :date, type: Time
+  field :subject, type: String
+  field :sha, type: String
   key :sha
 
   belongs_to :repository

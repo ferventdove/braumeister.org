@@ -8,15 +8,15 @@ require 'text'
 class FormulaeController < ApplicationController
 
   def index
-    @repository = Repository.where(:name => 'mxcl/homebrew').first
+    @repository = Repository.where(name: 'mxcl/homebrew').first
 
     if params[:search].nil? || params[:search].to_s.empty?
       @formulae = @repository.formulae.letter(params[:letter]).
-        where :removed => false
+        where removed: false
     else
       term = params[:search]
       @formulae = @repository.formulae.
-        where :name => /#{term}/i, :removed => false
+        where name: /#{term}/i, removed: false
 
       if @formulae.size == 1 && term == @formulae.first.name
         redirect_to formula_path(@formulae.first)
@@ -31,19 +31,19 @@ class FormulaeController < ApplicationController
 
     @formulae = @formulae.page(params[:page]).per 50
 
-    fresh_when :etag => @repository.sha, :public => true
+    fresh_when etag: @repository.sha, public: true
   end
 
   def show
-    @repository = Repository.where(:name => 'mxcl/homebrew').first
-    @formula = @repository.formulae.where(:name => params[:id]).first
+    @repository = Repository.where(name: 'mxcl/homebrew').first
+    @formula = @repository.formulae.where(name: params[:id]).first
     if @formula.nil?
       raise Mongoid::Errors::DocumentNotFound.new(Formula, params[:id])
     end
     @revisions = @formula.revisions.order_by([:date, :desc]).to_a
     @current_revision = @revisions.shift
 
-    fresh_when :etag => @current_revision.sha, :public => true
+    fresh_when etag: @current_revision.sha, public: true
   end
 
 end

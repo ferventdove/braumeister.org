@@ -6,12 +6,12 @@
 class Author
 
   include Mongoid::Document
-  
-  field :email, :type => String
-  field :name, :type => String
+
+  field :email, type: String
+  field :name, type: String
   key :email
-  
+
   belongs_to :repository
   has_many :revisions
-  
+
 end

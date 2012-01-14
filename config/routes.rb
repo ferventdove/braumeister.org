@@ -5,23 +5,23 @@
 
 Braumeister::Application.routes.draw do
 
-  resources :formulae, :only => :index, :path => 'browse' do
-    get ':letter(/:page)', :action => :index, :on => :collection,
-        :as => :letter,
-        :constraints => { :letter => /[A-Za-z]/, :page => /\d+/ }
+  resources :formulae, only: :index, path: 'browse' do
+    get ':letter(/:page)', action: :index, on: :collection,
+        as: :letter,
+        constraints: { letter: /[A-Za-z]/, page: /\d+/ }
   end
 
-  resources :formulae, :only => :index, :path => 'search' do
-    get ':search(/:page)', :action => :index, :on => :collection,
-        :as => :search,
-        :constraints => { :page => /\d+/ }
+  resources :formulae, only: :index, path: 'search' do
+    get ':search(/:page)', action: :index, on: :collection,
+        as: :search,
+        constraints: { page: /\d+/ }
   end
 
-  resources :formula, :controller => :formulae, :only => :show,
-            :constraints => { :id => /.*/ }
+  resources :formula, controller: :formulae, only: :show,
+            constraints: { id: /.*/ }
 
-  root :to => 'application#home'
+  root to: 'application#home'
 
-  match '*url', :to => 'application#not_found'
+  match '*url', to: 'application#not_found'
 
 end

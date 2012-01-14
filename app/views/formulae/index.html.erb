@@ -7,12 +7,12 @@
 This is a listing of all packages available via the Homebrew package manager
 for MacOS X.
 
-<%= render :partial => 'search' %>
+<%= render partial: 'search' %>
 
 <ul id="letters">
   <% ('A'..'Z').each do |letter| %>
      <li>
-       <%= link_to_unless_current letter, letter_formulae_path(:letter => letter.downcase) do %>
+       <%= link_to_unless_current letter, letter_formulae_path(letter: letter.downcase) do %>
          <span class="current"><%= letter %></span>
        <% end %>
      </li>
@@ -22,17 +22,17 @@ for MacOS X.
 <% if @formulae.empty? %>
   <div class="error">Sorry, no formulae are matching your search.</div>
 <% else
-  page_params = { :controller => :formulae, :action => :index, :id => nil }
+  page_params = { type: :formulae, action: :index, id: nil }
   if params.key?(:search) && !params[:search].empty?
     page_params[:use_route] = :search_formulae
   end
-  pagination = paginate @formulae, :params => page_params %>
+  pagination = paginate @formulae, params: page_params %>
 
   <%= pagination %>
 
   <div class="listing">
     <% @formulae.each do |formula| %>
-      <%= render :partial => 'formula', :locals => { :formula => formula } %>
+      <%= render partial: 'formula', locals: { formula: formula } %>
     <% end %>
   </div>
 

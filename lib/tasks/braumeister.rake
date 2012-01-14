@@ -10,7 +10,7 @@ def task_with_tracing(options)
     task options do
       include NewRelic::Agent::Instrumentation::ControllerInstrumentation
 
-      perform_action_with_newrelic_trace :name=> caller_method, :category=>:task, :force => true do
+      perform_action_with_newrelic_trace name: caller_method, category: :task, force: true do
         yield
       end
     end
@@ -28,14 +28,14 @@ namespace :braumeister do
   HOMEBREW = 'mxcl/homebrew'
 
   desc 'Regenerates the history of all formulae in the repository'
-  task_with_tracing :regenerate_history => :environment do
-    repo = Repository.find_or_create_by :name => HOMEBREW
+  task_with_tracing regenerate_history: :environment do
+    repo = Repository.find_or_create_by name: HOMEBREW
     repo.generate_history!
   end
 
   desc 'Pulls the latest changes from or clones the repository'
-  task_with_tracing :update => :environment do
-    repo = Repository.find_or_create_by :name => HOMEBREW
+  task_with_tracing update: :environment do
+    repo = Repository.find_or_create_by name: HOMEBREW
     repo.refresh
     repo.save!
   end

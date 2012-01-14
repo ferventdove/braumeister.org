@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012, Sebastian Staudt
 
-Repository.find_or_create_by :name => 'mxcl/homebrew'
+Repository.find_or_create_by name: 'mxcl/homebrew'
 
 Repository.all.each do |repo|
   repo.refresh

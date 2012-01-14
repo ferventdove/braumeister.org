@@ -15,7 +15,7 @@
   <strong class="subject"><%= @current_revision.subject %></strong>
   <div id="change-info">
     by <strong><%= @current_revision.author.name %></strong>
-    at <strong><%= l @current_revision.date, :format => :long %></strong><br />
+    at <strong><%= l @current_revision.date, format: :long %></strong><br />
     Git commit SHA: <%= link_to @current_revision.sha, "https://github.com/#{@repository.name}/commit/#{@current_revision.sha}##{@formula.path}" %>
   </div>
 </div>
@@ -35,7 +35,7 @@
       </td>
       <td class="date">
         <%= link_to '', "https://github.com/#{@repository.name}/commit/#{rev.sha}##{@formula.path}" %>
-        <%= l rev.date, :format => :long %>
+        <%= l rev.date, format: :long %>
       </td>
     </tr>
   <% end %>

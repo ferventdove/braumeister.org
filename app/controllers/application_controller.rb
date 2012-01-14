@@ -6,10 +6,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found
+  rescue_from Mongoid::Errors::DocumentNotFound, with: :not_found
 
   def home
-    @repository = Repository.where(:name => 'mxcl/homebrew').first
+    @repository = Repository.where(name: 'mxcl/homebrew').first
     formulae = @repository.formulae.order_by([:updated_at, :desc])
 
     @added, @updated, @removed = [], [], []
@@ -26,13 +26,13 @@ class ApplicationController < ActionController::Base
       break if @added.size == 5 && @updated.size == 5 && @removed.size == 5
     end
 
-    fresh_when :etag => @repository.sha, :public => true
+    fresh_when etag: @repository.sha, public: true
   end
 
   def not_found
     flash.now[:error] = 'The page you requested does not exist.'
     home
-    render :home, :status => :not_found
+    render :home, status: :not_found
 
     headers.delete 'ETag'
     expires_in 5.minutes

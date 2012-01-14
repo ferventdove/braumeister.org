@@ -18,7 +18,7 @@ Braumeister::Application.configure do
   config.log_level = :warn
 
   config.cache_store = :dalli_store, {
-    :metastore   => "memcached://#{ENV['MEMCACHE_SERVERS']}/meta",
-    :entitystore => "memcached://#{ENV['MEMCACHE_SERVERS']}/body"
+    metastore:   "memcached://#{ENV['MEMCACHE_SERVERS']}/meta",
+    entitystore: "memcached://#{ENV['MEMCACHE_SERVERS']}/body"
   }
 end

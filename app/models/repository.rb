@@ -10,9 +10,9 @@ class Repository
 
   FORMULA_REGEX = /^(?:Library\/)?Formula\/(.+?)\.rb$/
 
-  field :date, :type => Time
-  field :name, :type => String
-  field :sha, :type => String
+  field :date, type: Time
+  field :name, type: String
+  field :sha, type: String
   key :name
 
   embeds_many :formulae
@@ -93,8 +93,8 @@ class Repository
     commits.each do |commit|
       commit = commit.lines.to_a
       info, formulae = commit.shift.strip.split("\x00"), commit
-      rev = self.revisions.build :sha => info[0]
-      rev.author = self.authors.find_or_initialize_by :email => info[2]
+      rev = self.revisions.build sha: info[0]
+      rev.author = self.authors.find_or_initialize_by email: info[2]
       rev.author.name = info[3]
       rev.author.save!
       rev.date = info[1].to_i
@@ -102,7 +102,7 @@ class Repository
       rev.save!
       revisions << rev
       formulae.each do |formula|
-        formula = self.formulae.where(:name => formula.split[1].sub(FORMULA_REGEX, '\1')).first
+        formula = self.formulae.where(name: formula.split[1].sub(FORMULA_REGEX, '\1')).first
         next if formula.nil?
         formula.revisions << rev
       end
@@ -138,7 +138,7 @@ class Repository
 
     added = modified = removed = 0
     changes.each do |type, fpath|
-      formula = formulae.find_or_initialize_by :name => fpath.match(FORMULA_REGEX)[1]
+      formula = formulae.find_or_initialize_by name: fpath.match(FORMULA_REGEX)[1]
       if type == 'D'
         formula.removed = true
         Rails.logger.debug "Removed formula #{formula.name}."
@@ -189,8 +189,8 @@ class Repository
       formulae.each do |name|
         formula = Formula.factory name
         formulae_info[name] = {
-          :homepage => formula.homepage,
-          :version => formula.version
+          homepage: formula.homepage,
+          version: formula.version
         }
       end
 

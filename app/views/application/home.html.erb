@@ -8,17 +8,17 @@
   package manager.<br />
   For more information on how to install and use Homebrew see its homepage.
 
-  <%= link_to 'Browse all formulae', letter_formulae_path(:letter => 'a'), :class => 'center' %>
+  <%= link_to 'Browse all formulae', letter_formulae_path(letter: 'a'), class: 'center' %>
 
   <h2>Search a formula:</h2>
-  <%= render :partial => 'formulae/search' %>
+  <%= render partial: 'formulae/search' %>
 </div>
 
 <div class="recently-added">
   <h3>Recently added formulae</h3>
   <div class="listing">
     <% @added.each do |formula| %>
-      <%= render :partial => 'recent', :locals => { :formula => formula } %>
+      <%= render partial: 'recent', locals: { formula: formula } %>
     <% end %>
   </div>
 </div>
@@ -29,7 +29,7 @@
   <h3>Recently updated formulae</h3>
   <div class="listing">
     <% @updated.each do |formula| %>
-      <%= render :partial => 'recent', :locals => { :formula => formula } %>
+      <%= render partial: 'recent', locals: { formula: formula } %>
     <% end %>
   </div>
 </div>
@@ -40,13 +40,13 @@
   <h3>Recently removed formulae</h3>
   <div class="listing">
     <% @removed.each do |formula| %>
-      <%= render :partial => 'recent', :locals => { :formula => formula } %>
+      <%= render partial: 'recent', locals: { formula: formula } %>
     <% end %>
   </div>
 </div>
 
 <div id="timestamps">
-  Last updated at <%= l @repository.updated_at, :format => :long %><br />
-  Last change at <%= l @repository.date, :format => :long %><br />
+  Last updated at <%= l @repository.updated_at, format: :long %><br />
+  Last change at <%= l @repository.date, format: :long %><br />
   Current Git commit SHA: <%= link_to @repository.sha, "https://github.com/#{@repository.name}/tree/#{@repository.sha}" %>
 </div>
