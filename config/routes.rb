@@ -13,7 +13,8 @@ Braumeister::Application.routes.draw do
     get ':search', :action => :index, :on => :collection
   end
 
-  resources :formulae, :only => :show, :path => 'formula'
+  resources :formulae, :only => :show, :path => 'formula',
+            :constraints => { :id => /.*/ }
 
   root :to => 'home#index'
 
