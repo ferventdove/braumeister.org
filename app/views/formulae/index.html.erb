@@ -6,9 +6,8 @@
 
 This is a listing of all packages available via the Homebrew package manager
 for MacOS X.
-<form action="<%= formulae_path %>" id="search-form">
-  <input id="search" name="search" type="text" value="<%= params[:search] || 'search&hellip;'.html_safe %>" />
-</form>
+
+<%= render :partial => 'search' %>
 
 <% if @formulae.empty? %>
   <div class="error">Sorry, no formulae are matching your search.</div>

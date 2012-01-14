@@ -1,3 +1,7 @@
+<script type="text/javascript">
+  $(formHandler);
+</script>
+
 <div id="home">
   <strong>braumeister.org</strong> is an online package browser for
   <%= link_to 'Homebrew', 'http://mxcl.github.com/homebrew' %> – the MacOS X
@@ -6,6 +10,8 @@
 
 
   <%= link_to 'Browse all packages', :formulae, :class => 'center' %>
+  <h2>Search a formula:</h2>
+  <%= render :partial => 'formulae/search' %>
 </div>
 
 <div class="recently-added">

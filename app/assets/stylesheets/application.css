@@ -231,12 +231,26 @@ div#home {
   text-align:    center;
 }
 
-div#home a.center {
-  display:     block;
+div#home a.center, div#home h2 {
   font-family: 'Neuton', serif;
   font-size:   22pt;
-  margin:      1.5em 0 1em 0;
+
   text-shadow: 1px 1px 1px #000000;
+}
+
+div#home a.center {
+  display: block;
+  margin:  1em 0 0 0;
+}
+
+div#home h2 {
+  color:   #dd9800;
+  margin:  0.5em 0;
+  display: inline;
+}
+
+div#home form {
+  display: inline;
 }
 
 div#last-change strong.subject {
