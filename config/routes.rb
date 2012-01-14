@@ -16,7 +16,7 @@ Braumeister::Application.routes.draw do
 
   resources :formula, :only => :show, :constraints => { :id => /.*/ }
 
-  root :to => 'home#index'
+  root :to => 'application#home'
 
   match '*url', :to => 'application#not_found'
 

@@ -8,18 +8,32 @@ class ApplicationController < ActionController::Base
 
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found
 
-  def not_found
-    unless respond_to? :index
-      render :nothing => true, :status => :not_found
-      return
+  def home
+    @repository = Repository.where(:name => 'mxcl/homebrew').first
+    formulae = @repository.formulae.order_by([:updated_at, :desc])
+
+    @added, @updated, @removed = [], [], []
+    formulae.each do |formula|
+      if @added.size < 5 && formula.revision_ids.size == 1
+        @added << formula
+      elsif @updated.size < 5 && !formula.removed? &&
+            formula.revision_ids.size > 1
+        @updated << formula
+      elsif @removed.size < 5 && formula.removed?
+        @removed << formula
+      end
+
+      break if @added.size == 5 && @updated.size == 5 && @removed.size == 5
     end
 
+    fresh_when :etag => @repository.sha, :public => true
+  end
+
+  def not_found
     flash.now[:error] = 'The page you requested does not exist.'
-
-    index
-
     expires_in 5.minutes
-    render :index, :status => :not_found
+    home
+    render :home, :status => :not_found
   end
 
 end
