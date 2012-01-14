@@ -14,7 +14,8 @@ Braumeister::Application.routes.draw do
     get ':search', :action => :index, :on => :collection
   end
 
-  resources :formula, :only => :show, :constraints => { :id => /.*/ }
+  resources :formula, :controller => :formulae, :only => :show,
+            :constraints => { :id => /.*/ }
 
   root :to => 'application#home'
 
