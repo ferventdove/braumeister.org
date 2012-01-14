@@ -10,6 +10,11 @@ for MacOS X.
   <input id="search" name="search" type="text" value="<%= params[:search] || 'search&hellip;'.html_safe %>" />
 </form>
 
+<ul class="letters">
+  <% ("A".."Z").each do |letter| %><li><%= link_to(letter, formulae_path(:letter => letter)) %></li><% end %>
+</ul>
+<div style="clear:both"></div>
+
 <% if @formulae.empty? %>
   <div class="error">Sorry, no formulae are matching your search.</div>
 <% else

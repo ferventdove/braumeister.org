@@ -23,4 +23,16 @@ class Formula
     File.join('Library', 'Formula', name) + '.rb'
   end
 
+  def self.letterize(letter)
+    letter =~ /\A[A-Za-z]\z/ ? letter.downcase : 'a'
+  end
+
+  def self.letter(letter)
+    name_starts_with(letter).order_by([:name, :asc])
+  end
+
+  def self.name_starts_with(letter)
+    where(name: /^#{letter}/)
+  end
+
 end
