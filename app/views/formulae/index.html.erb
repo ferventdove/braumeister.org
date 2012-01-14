@@ -22,8 +22,12 @@ for MacOS X.
 <% if @formulae.empty? %>
   <div class="error">Sorry, no formulae are matching your search.</div>
 <% else
-  pagination = paginate @formulae,
-    :params => { :controller => :formulae, :action => :index, :id => nil } %>
+  page_params = { :controller => :formulae, :action => :index, :id => nil }
+  if params.key? :search && !params[:search].empty?
+    page_params[:use_route] = :search_formulae
+  end
+  pagination = paginate @formulae, :params => page_params %>
+
   <%= pagination %>
 
   <div class="listing">

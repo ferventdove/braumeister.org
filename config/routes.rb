@@ -6,12 +6,15 @@
 Braumeister::Application.routes.draw do
 
   resources :formulae, :only => :index, :path => 'browse' do
-    get ':letter(/:page)', :action => :index, :on => :collection, :as => :letter,
+    get ':letter(/:page)', :action => :index, :on => :collection,
+        :as => :letter,
         :constraints => { :letter => /[A-Za-z]/, :page => /\d+/ }
   end
 
   resources :formulae, :only => :index, :path => 'search' do
-    get ':search', :action => :index, :on => :collection
+    get ':search(/:page)', :action => :index, :on => :collection,
+        :as => :search,
+        :constraints => { :page => /\d+/ }
   end
 
   resources :formula, :controller => :formulae, :only => :show,
