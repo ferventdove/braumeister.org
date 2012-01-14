@@ -378,17 +378,17 @@ nav {
   text-align: center;
 }
 
-nav span.current {
+nav span.current, ul#letters span.current {
   color:       #b5af87;
   font-weight: bold;
   text-shadow: #dd9800 0 0 4px;
 }
 
-ul.letters {
+ul#letters {
   list-style: none;
 }
 
-ul.letters li {
-  padding-right: 18px;
-  float: left;
+ul#letters li {
+  display:       inline;
+  padding-right: 1em;
 }

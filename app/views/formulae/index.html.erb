@@ -9,10 +9,15 @@ for MacOS X.
 
 <%= render :partial => 'search' %>
 
-<ul class="letters">
-  <% ("A".."Z").each do |letter| %><li><%= link_to(letter, formulae_path(:letter => letter)) %></li><% end %>
+<ul id="letters">
+  <% ('A'..'Z').each do |letter| %>
+     <li>
+       <%= link_to_unless_current letter, letter_formulae_path(:letter => letter.downcase) do %>
+         <span class="current"><%= letter %></span>
+       <% end %>
+     </li>
+  <% end %>
 </ul>
-<div style="clear:both"></div>
 
 <% if @formulae.empty? %>
   <div class="error">Sorry, no formulae are matching your search.</div>

@@ -6,7 +6,8 @@
 Braumeister::Application.routes.draw do
 
   resources :formulae, :only => :index, :path => 'browse' do
-    get ':page', :action => :index, :on => :collection
+    get ':letter(/:page)', :action => :index, :on => :collection, :as => :letter,
+        :constraints => { :letter => /[A-Za-z]/, :page => /\d+/ }
   end
 
   resources :formulae, :only => :index, :path => 'search' do
