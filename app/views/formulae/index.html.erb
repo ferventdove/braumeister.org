@@ -22,7 +22,7 @@ for MacOS X.
 <% if @formulae.empty? %>
   <div class="error">Sorry, no formulae are matching your search.</div>
 <% else
-  page_params = { type: :formulae, action: :index, id: nil }
+  page_params = { id: nil }
   if params.key?(:search) && !params[:search].empty?
     page_params[:use_route] = :search_formulae
   end
