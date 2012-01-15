@@ -176,6 +176,7 @@ class Repository
       $LOAD_PATH.unshift File.join(path, 'Library', 'Homebrew')
 
       Object.send :remove_const, :Base64
+      Object.send :remove_const, :Daemonize
       Object.send :remove_const, :Formula
       Object.send :remove_const, :Syck
 
