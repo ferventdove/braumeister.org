@@ -24,6 +24,7 @@ class Formula
   end
 
   def self.letter(letter)
+    letter = 'a' if letter.nil? || letter.empty?
     where(name: /^#{letter.downcase}/).order_by([:name, :asc])
   end
 

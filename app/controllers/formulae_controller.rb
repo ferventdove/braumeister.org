@@ -10,7 +10,7 @@ class FormulaeController < ApplicationController
   def index
     @repository = Repository.where(name: 'mxcl/homebrew').first
 
-    if params[:search].nil? || params[:search].to_s.empty?
+    if params[:search].nil? || params[:search].empty?
       @formulae = @repository.formulae.letter(params[:letter]).
         where removed: false
     else
