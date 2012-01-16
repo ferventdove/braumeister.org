@@ -175,10 +175,7 @@ class Repository
 
       $LOAD_PATH.unshift File.join(path, 'Library', 'Homebrew')
 
-      Object.send :remove_const, :Base64
-      Object.send :remove_const, :Daemonize
       Object.send :remove_const, :Formula
-      Object.send :remove_const, :Syck
 
       $homebrew_path = path
       require 'sandbox_backtick'
@@ -188,11 +185,18 @@ class Repository
 
       formulae_info = {}
       formulae.each do |name|
-        formula = Formula.factory name
-        formulae_info[name] = {
-          homepage: formula.homepage,
-          version: formula.version
-        }
+        begin
+          Rails.logger.debug name
+          formula = Formula.factory name
+          formulae_info[name] = {
+            homepage: formula.homepage,
+            version: formula.version
+          }
+        rescue TypeError
+          const = $!.message.match(/^(.*?) is not a class/)[1].to_sym
+          Object.send :remove_const, const
+          redo
+        end
       end
 
       Marshal.dump formulae_info, pipe_write
