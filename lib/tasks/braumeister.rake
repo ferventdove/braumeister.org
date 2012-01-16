@@ -3,10 +3,10 @@
 #
 # Copyright (c) 2012, Sebastian Staudt
 
-def task_with_tracing(options)
-  caller_method = options.keys.first.to_s
+if defined? ::NewRelic
+  def task_with_tracing(options)
+    caller_method = options.keys.first.to_s
 
-  if defined? ::NewRelic
     task options do
       include NewRelic::Agent::Instrumentation::ControllerInstrumentation
 
@@ -14,10 +14,10 @@ def task_with_tracing(options)
         yield
       end
     end
-  else
-    task options do
-      yield
-    end
+  end
+else
+  class << self
+    alias_method :task_with_tracing, :task
   end
 end
 
