@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
@@ -11,10 +13,14 @@ class FormulaeController < ApplicationController
     @repository = Repository.where(name: 'mxcl/homebrew').first
 
     if params[:search].nil? || params[:search].empty?
+      letter = params[:letter]
+      letter = 'a' if letter.nil? || letter.empty?
+      @title = "Browse formulae – #{letter.upcase}"
       @formulae = @repository.formulae.letter(params[:letter]).
         where removed: false
     else
       term = params[:search]
+      @title = "Search for: #{term}"
       @formulae = @repository.formulae.
         where name: /#{term}/i, removed: false
 
@@ -40,6 +46,7 @@ class FormulaeController < ApplicationController
     if @formula.nil?
       raise Mongoid::Errors::DocumentNotFound.new(Formula, params[:id])
     end
+    @title = @formula.name
     @revisions = @formula.revisions.order_by([:date, :desc]).to_a
     @current_revision = @revisions.shift
 
