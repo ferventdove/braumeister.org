@@ -32,7 +32,10 @@ class ApplicationController < ActionController::Base
   def not_found
     flash.now[:error] = 'The page you requested does not exist.'
     home
-    render :home, status: :not_found
+
+    respond_to do |format|
+      format.html { render :home, status: :not_found }
+    end
 
     headers.delete 'ETag'
     expires_in 5.minutes
