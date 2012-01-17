@@ -105,6 +105,7 @@ class Repository
         formula = self.formulae.where(name: formula.split[1].sub(FORMULA_REGEX, '\1')).first
         next if formula.nil?
         formula.revisions << rev
+        formula.date = rev.date if formula.date.nil? || rev.date > formula.date
       end
     end
     self.revisions = revisions
