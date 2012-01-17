@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def home
     @repository = Repository.where(name: 'mxcl/homebrew').first
-    formulae = @repository.formulae.order_by([:updated_at, :desc])
+    formulae = @repository.formulae.order_by [:date, :desc]
 
     @added, @updated, @removed = [], [], []
     formulae.each do |formula|
