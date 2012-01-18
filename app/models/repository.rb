@@ -141,6 +141,7 @@ class Repository
     changes.each do |type, fpath|
       formula = formulae.find_or_initialize_by name: fpath.match(FORMULA_REGEX)[1]
       if type == 'D'
+        removed += 1
         formula.removed = true
         Rails.logger.debug "Removed formula #{formula.name}."
       else
