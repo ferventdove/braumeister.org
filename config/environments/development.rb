@@ -16,3 +16,5 @@ Braumeister::Application.configure do
 
   config.mongoid.preload_models = false
 end
+
+$stdout.sync = true
