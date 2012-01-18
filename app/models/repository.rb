@@ -15,9 +15,9 @@ class Repository
   field :sha, type: String
   key :name
 
-  embeds_many :formulae
   has_many :authors
-  has_many :revisions
+  has_many :formulae, dependent: :destroy
+  has_many :revisions, dependent: :destroy
 
   def clone_or_pull
     last_sha = sha
@@ -106,6 +106,7 @@ class Repository
         next if formula.nil?
         formula.revisions << rev
         formula.date = rev.date if formula.date.nil? || rev.date > formula.date
+        formula.save!
       end
     end
     self.revisions = revisions
@@ -152,11 +153,16 @@ class Repository
           modified += 1
           Rails.logger.debug "Updated formula #{formula.name}."
         end
+        formula.deps = []
+        formulae_info[formula.name][:deps].each do |dep|
+          dep_formula = formulae.find_or_initialize_by name: dep
+          formula.deps << dep_formula
+        end
         formula.homepage = formulae_info[formula.name][:homepage]
         formula.removed  = false
         formula.version  = formulae_info[formula.name][:version]
       end
-      formula.save
+      formula.save!
     end
 
     generate_history last_sha
@@ -191,6 +197,7 @@ class Repository
           Rails.logger.debug name
           formula = Formula.factory name
           formulae_info[name] = {
+            deps: formula.deps,
             homepage: formula.homepage,
             version: formula.version
           }

@@ -17,8 +17,11 @@ class Formula
 
   alias_method :to_param, :name
 
-  embedded_in :repository
-  has_and_belongs_to_many :revisions
+  belongs_to :repository
+  has_and_belongs_to_many :revisions, inverse_of: nil
+
+  has_and_belongs_to_many :deps, class_name: 'Formula', inverse_of: :revdeps
+  has_and_belongs_to_many :revdeps, class_name: 'Formula', inverse_of: :deps
 
   def path
     File.join('Library', 'Formula', name) + '.rb'

@@ -31,7 +31,7 @@ div#basic h2.removed:first-line {
   color: #d00 !important;
 }
 
-div#basic, div#last-change, div#history {
+div#basic, div#deps, div#last-change, div#history, div#revdeps {
   background:    #595945;
   border-radius: 4px;
   box-shadow:    #232020 3px 3px 3px;
@@ -67,7 +67,7 @@ div#content {
   -webkit-box-shadow:    #000 4px 4px 4px;
 }
 
-div#content a.formula {
+div#content a.formula, div#deps em, div#revdeps em {
   color:       #dd9800;
   font-family: 'Neuton', serif;
   font-size:   1.8em;
@@ -128,6 +128,21 @@ div#content div.error {
   text-align:  center;
 }
 
+div#deps em, div#revdeps em {
+  font-size:  1.5em;
+  font-style: normal;
+}
+
+div#deps ul, div#revdeps ul {
+  border:        1px solid #232020;
+  border-radius: 3px;
+  margin-left:   2em;
+  padding-left:  0;
+
+  -moz-border-radius:    3px;
+  -webkit-border-radius: 3px;
+}
+
 div#flash-error, div#flash-notice {
   border:        2px solid;
   border-top:    none !important;
@@ -184,7 +199,7 @@ div#header img {
   margin: -0.2em -0.5em 0 -0.1em;
 }
 
-div#history h2, div#last-change h2 {
+div#deps h2, div#history h2, div#last-change h2, div#revdeps h2 {
   border-bottom: 1px solid #dd9800;
   box-shadow:    0 1px #232020;
 }

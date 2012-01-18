@@ -20,6 +20,30 @@
   </div>
 </div>
 
+<% unless @formula.deps.empty? %>
+  <div id="deps">
+    <h2>Dependencies</h2>
+      <%= t '.deps_html', name: @formula.name, count: @formula.deps.size %>
+    <ul>
+      <% @formula.deps.each do |dep| %>
+        <%= render partial: 'formula', locals: { formula: dep } %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% unless @formula.revdeps.empty? %>
+  <div id="revdeps">
+    <h2>Reverse dependencies</h2>
+    <%= t '.revdeps_html', name: @formula.name, count: @formula.revdeps.size %>
+    <ul>
+      <% @formula.revdeps.each do |revdep| %>
+        <%= render partial: 'formula', locals: { formula: revdep } %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <% unless @revisions.empty? %>
 <div id="history">
   <h2>Past formula history</h2>
