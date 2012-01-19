@@ -12,6 +12,7 @@ Braumeister::Application.routes.draw do
   end
 
   resources :formulae, only: :index, path: 'search' do
+    get '' => redirect('/browse/a'), on: :collection
     get ':search(/:page)', action: :index, on: :collection,
         as: :search,
         constraints: { page: /\d+/ }
