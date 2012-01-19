@@ -109,7 +109,7 @@ class Repository
         formula.save!
       end
     end
-    self.revisions = revisions
+    self.revisions += revisions
     save!
   end
 
