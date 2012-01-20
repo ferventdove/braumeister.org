@@ -21,6 +21,8 @@ Braumeister::Application.routes.draw do
   resources :formula, controller: :formulae, only: :show,
             constraints: { id: /.*/ }
 
+  match '/feed' => 'formulae#feed', as: :feed
+
   root to: 'application#home'
 
   match '*url', to: 'application#not_found'
