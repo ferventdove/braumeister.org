@@ -194,7 +194,6 @@ class Repository
       formulae_info = {}
       formulae.each do |name|
         begin
-          Rails.logger.debug name
           formula = Formula.factory name
           formulae_info[name] = {
             deps: formula.deps,
