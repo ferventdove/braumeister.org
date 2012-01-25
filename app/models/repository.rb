@@ -122,7 +122,11 @@ class Repository
   def git(command)
     command = "git --git-dir #{path}/.git #{command}"
     Rails.logger.debug "Executing `#{command}`"
-    `#{command}`.strip
+    output = `#{command}`.strip
+
+    raise "Execution of `#{command}` failed." unless $?.success?
+
+    output
   end
 
   def path
