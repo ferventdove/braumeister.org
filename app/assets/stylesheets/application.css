@@ -316,7 +316,7 @@ div.recently-added, div.recently-removed, div.recently-updated {
 div.recently-added div.listing, div.recently-removed div.listing,
 div.recently-updated div.listing {
   border-radius: 4px;
-  height:        13.8em;
+  min-height:    13.8em;
   margin:        0.5em !important;
   padding:       0 !important;
 
