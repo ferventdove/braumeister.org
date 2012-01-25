@@ -55,6 +55,11 @@ class FormulaeController < ApplicationController
     @repository = Repository.where(name: 'mxcl/homebrew').first
     @formula = @repository.formulae.where(name: params[:id]).first
     if @formula.nil?
+      formula = @repository.formulae.all_in(aliases: [params[:id]]).first
+      unless formula.nil?
+        redirect_to formula
+        return
+      end
       raise Mongoid::Errors::DocumentNotFound.new(Formula, params[:id])
     end
     @title = @formula.name

@@ -8,6 +8,10 @@
   <% end %>
   <em><%= @formula.version %></em></h2>
   <h2>Homepage: <em><%= link_to @formula.homepage, @formula.homepage %></em></h2>
+  <% unless (@formula.aliases || []).empty? %>
+    Also known as: <strong><%= @formula.aliases.join('</strong>, <strong>').html_safe %></strong><br>
+  <% end %>
+  <%= link_to 'Install now', "brew://install/#{@formula.name}" %>
 </div>
 
 <div id="last-change">

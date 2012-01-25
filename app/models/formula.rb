@@ -8,6 +8,7 @@ class Formula
   include Mongoid::Document
   include Mongoid::Timestamps::Updated
 
+  field :aliases, type: Array
   field :date, type: Time
   field :removed, type: Boolean
   field :name, type: String

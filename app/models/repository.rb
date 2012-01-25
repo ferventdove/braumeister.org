@@ -8,6 +8,7 @@ class Repository
   include Mongoid::Document
   include Mongoid::Timestamps::Updated
 
+  ALIAS_REGEX   = /^(?:Library\/)?Aliases\/(.+?)$/
   FORMULA_REGEX = /^(?:Library\/)?Formula\/(.+?)\.rb$/
 
   field :date, type: Time
@@ -51,19 +52,24 @@ class Repository
     self.date = Time.at log[1].to_i
 
     if last_sha.nil?
-      changes = git 'ls-tree --name-only HEAD Library/Formula/'
-      changes = changes.lines.map { |file| ['A', file.strip] }
+      formulae = git 'ls-tree --name-only HEAD Library/Formula/'
+      formulae = formulae.lines.map { |file| ['A', file.strip] }
+
+      aliases = git 'ls-tree --name-only HEAD Library/Aliases/'
+      aliases = aliases.lines.map { |file| ['A', file.strip] }
 
       Rails.logger.info "Checked out #{sha} in #{path}"
     else
-      changes = git "diff --name-status #{last_sha}..HEAD"
-      changes = changes.lines.map { |file| file.split }
-      changes = changes.select { |file| file[1] =~ FORMULA_REGEX }
+      diff = git "diff --name-status #{last_sha}..HEAD"
+      diff = diff.lines.map { |file| file.split }
+
+      formulae = diff.select { |file| file[1] =~ FORMULA_REGEX }
+      aliases = diff.select { |file| file[1] =~ ALIAS_REGEX }
 
       Rails.logger.info "Updated #{name} from #{last_sha} to #{sha}:"
     end
 
-    return changes, last_sha
+    return formulae, aliases, last_sha
   end
 
   def formula_files
@@ -124,7 +130,7 @@ class Repository
   end
 
   def refresh
-    changes, last_sha = clone_or_pull
+    formulae, aliases, last_sha = clone_or_pull
 
     if changes.size == 0
       Rails.logger.info 'No formulae changed.'
@@ -132,15 +138,14 @@ class Repository
     end
 
     updated_formulae = []
-    changes.each do |type, fpath|
+    formulae.each do |type, fpath|
       updated_formulae << fpath.match(FORMULA_REGEX)[1] unless type == 'D'
     end
-
     formulae_info = formulae_info updated_formulae
 
     added = modified = removed = 0
-    changes.each do |type, fpath|
-      formula = formulae.find_or_initialize_by name: fpath.match(FORMULA_REGEX)[1]
+    formulae.each do |type, fpath|
+      formula = self.formulae.find_or_initialize_by name: fpath.match(FORMULA_REGEX)[1]
       if type == 'D'
         removed += 1
         formula.removed = true
@@ -155,7 +160,7 @@ class Repository
         end
         formula.deps = []
         formulae_info[formula.name][:deps].each do |dep|
-          dep_formula = formulae.find_or_initialize_by name: dep
+          dep_formula = self.formulae.find_or_initialize_by name: dep
           formula.deps << dep_formula
         end
         formula.homepage = formulae_info[formula.name][:homepage]
@@ -163,6 +168,20 @@ class Repository
         formula.version  = formulae_info[formula.name][:version]
       end
       formula.save!
+    end
+
+    aliases.each do |type, apath|
+      name = apath.match(ALIAS_REGEX)[1]
+      if type == 'D'
+        self.formulae.all_in(aliases: name).destroy_all
+      else
+        formula_name  = File.basename File.readlink(File.join(path, apath)), '.rb'
+        formula = self.formulae.where(name: formula_name).first
+        next if formula.nil?
+        formula.aliases ||= []
+        formula.aliases << name
+        formula.save!
+      end
     end
 
     generate_history last_sha
