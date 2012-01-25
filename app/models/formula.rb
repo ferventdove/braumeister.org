@@ -14,7 +14,7 @@ class Formula
   field :name, type: String
   field :homepage, type: String
   field :version, type: String
-  key :name
+  key :repository_id, :name
 
   alias_method :to_param, :name
 
