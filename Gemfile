@@ -15,5 +15,6 @@ group :assets do
 end
 
 group :production do
+  gem 'airbrake', '~> 3.0.9'
   gem 'newrelic_rpm', '~> 3.3.1'
 end
