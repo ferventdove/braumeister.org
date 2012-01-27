@@ -16,8 +16,8 @@ atom_feed id: "tag:braumeister.org:#{@repository.name}", schema_date: 2012 do |f
       published: revisions.first.date,
       updated: formula.date
     }
-  
-    feed.entry formula, entry_options, do |entry|
+
+    feed.entry formula, entry_options do |entry|
       title = "#{formula.name} has been "
       if formula.removed?
         title << 'removed'
@@ -28,7 +28,7 @@ atom_feed id: "tag:braumeister.org:#{@repository.name}", schema_date: 2012 do |f
       end
       entry.title title
       entry.summary revisions.last.subject
-      
+
       entry.author do |author|
         author.name revisions.last.author.name
       end
