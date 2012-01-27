@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: http://braumeister.org/sitemap.xml

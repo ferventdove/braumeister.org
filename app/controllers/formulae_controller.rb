@@ -50,6 +50,17 @@ class FormulaeController < ApplicationController
     fresh_when etag: @repository.sha, public: true
   end
 
+  def sitemap
+    @repository = Repository.where(name: 'mxcl/homebrew').first
+    @formulae = @repository.formulae.order_by([:date, :desc]).limit 50
+
+    respond_to do |format|
+      format.xml
+    end
+
+    fresh_when etag: @repository.sha, public: true
+  end
+
   def show
     @repository = Repository.where(name: 'mxcl/homebrew').first
     @formula = @repository.formulae.where(name: params[:id]).first

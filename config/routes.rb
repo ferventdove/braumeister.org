@@ -23,6 +23,8 @@ Braumeister::Application.routes.draw do
 
   match '/feed' => 'formulae#feed', as: :feed
 
+  match '/sitemap' => 'formulae#sitemap', as: :sitemap
+
   root to: 'application#home'
 
   match '*url', to: 'application#not_found'
