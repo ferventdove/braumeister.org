@@ -179,7 +179,9 @@ class Repository
       if type == 'D'
         self.formulae.all_in(aliases: name).destroy_all
       else
-        formula_name  = File.basename File.readlink(File.join(path, apath)), '.rb'
+        alias_path = File.join path, apath
+        next unless FileTest.symlink? alias_path
+        formula_name  = File.basename File.readlink(alias_path), '.rb'
         formula = self.formulae.where(name: formula_name).first
         next if formula.nil?
         formula.aliases ||= []
