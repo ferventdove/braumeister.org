@@ -16,8 +16,7 @@ class FormulaeController < ApplicationController
       letter = params[:letter]
       letter = 'a' if letter.nil? || letter.empty?
       @title = "Browse formulae – #{letter.upcase}"
-      @formulae = @repository.formulae.letter(params[:letter]).
-        where removed: false
+      @formulae = @repository.formulae.letter(letter).where removed: false
     else
       term = params[:search]
       @title = "Search for: #{term}"
