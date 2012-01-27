@@ -7,7 +7,7 @@ xml.instruct!
 xml.urlset xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9' do
   xml.url do
     xml.loc root_url
-    xml.lastmod @repository.updated_at
+    xml.lastmod @repository.updated_at.iso8601
     xml.changefreq 'hourly'
     xml.priority 1.0
   end
@@ -15,7 +15,7 @@ xml.urlset xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9' do
   ('a'..'z').each do |letter|
     xml.url do
       xml.loc letter_formulae_url(letter: letter)
-      xml.lastmod @repository.updated_at
+      xml.lastmod @repository.updated_at.iso8601
       xml.changefreq 'hourly'
       xml.priority 0.8
     end
@@ -23,7 +23,7 @@ xml.urlset xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9' do
 
   xml.url do
     xml.loc feed_url(format: :atom)
-    xml.lastmod @repository.updated_at
+    xml.lastmod @repository.updated_at.iso8601
     xml.changefreq 'hourly'
     xml.priority 0.6
   end
@@ -31,7 +31,7 @@ xml.urlset xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9' do
   @repository.formulae.each do |formula|
     xml.url do
       xml.loc polymorphic_url(formula, only_path: false)
-      xml.lastmod formula.updated_at
+      xml.lastmod formula.updated_at.iso8601
       xml.changefreq 'hourly'
     end
   end
