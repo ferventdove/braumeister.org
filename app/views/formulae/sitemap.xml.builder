@@ -28,7 +28,7 @@ xml.urlset xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9' do
     xml.priority 0.6
   end
 
-  @repository.formulae.each do |formula|
+  @repository.formulae.without(:revisions).each do |formula|
     xml.url do
       xml.loc polymorphic_url(formula, only_path: false)
       xml.lastmod formula.updated_at.iso8601
