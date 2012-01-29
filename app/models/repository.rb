@@ -72,11 +72,6 @@ class Repository
     return formulae, aliases, last_sha
   end
 
-  def formula_files
-    files = Dir.glob File.join(path, 'Library', 'Formula', '*.rb')
-    files.map { |f| File.basename f, '.rb' }
-  end
-
   def generate_history!
     clone_or_pull
 
