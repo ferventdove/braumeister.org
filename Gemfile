@@ -14,7 +14,15 @@ group :assets do
   gem 'uglifier', '~> 1.2.1'
 end
 
+group :development, :test do
+  gem 'rspec-rails', '~> 2.8.0'
+end
+
 group :production do
   gem 'airbrake', '~> 3.0.9'
   gem 'newrelic_rpm', '~> 3.3.1'
+end
+
+group :test do
+  gem 'mocha', '~> 0.10.0'
 end

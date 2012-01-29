@@ -3,3 +3,6 @@ development:
 
 production:
   uri: <%= ENV['MONGOLAB_URI'] %>
+
+test:
+  uri: mongodb://braumeister:braumeister@localhost:27017/braumeister
