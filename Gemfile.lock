@@ -134,6 +134,7 @@ GEM
       multi_json (>= 1.0.2)
 
 PLATFORMS
+  jruby
   ruby
 
 DEPENDENCIES
