@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'bson_ext', '~> 1.5.2'
+gem 'bson_ext', '~> 1.5.2', platforms: :ruby
 gem 'dalli', '~> 1.1.4'
 gem 'jquery-rails', '~> 2.0.0'
 gem 'kaminari', '~> 0.13.0'
