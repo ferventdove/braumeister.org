@@ -54,7 +54,8 @@ LICENSE file.
  * [GitHub project page][1]
  * [GitHub issue tracker][2]
  * [Homebrew][3]
- * [Dependency status at Gemnasium: ![Dependency Status](https://gemnasium.com/koraktor/braumeister.org.png?travis)][4]
+ * [Continuous Integration at Travis CI][5]: [![Build Status](https://secure.travis-ci.org/koraktor/braumeister.org.png?branch=master)][5]
+ * [Dependency status at Gemnasium][4]: [![Dependency Status](https://gemnasium.com/koraktor/braumeister.org.png?travis)][4]
  
  Follow braumeister.org on Twitter
  [@braumeister_org](http://twitter.com/braumeister_org).
@@ -63,3 +64,4 @@ LICENSE file.
  [2]: https://github.com/koraktor/braumeister.org/issues
  [3]: http://mxcl.github.com/homebrew
  [4]: https://gemnasium.com/koraktor/braumeister.org
+ [5]: http://travis-ci.org/koraktor/braumeister.org
