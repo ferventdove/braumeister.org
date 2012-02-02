@@ -48,6 +48,7 @@ LICENSE file.
 ## Credits
 
  * Sebastian Staudt – koraktor(at)gmail.com
+ * Andrey Ognevsky – a.ognevsky(at)gmail.com
 
 ## See also
 
