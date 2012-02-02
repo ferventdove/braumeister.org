@@ -11,7 +11,6 @@
   <% unless (@formula.aliases || []).empty? %>
     Also known as: <strong><%= @formula.aliases.join('</strong>, <strong>').html_safe %></strong><br>
   <% end %>
-  <%= link_to 'Install now', "brew://install/#{@formula.name}" %>
 </div>
 
 <div id="last-change">
