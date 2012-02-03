@@ -78,7 +78,9 @@ class Repository
     Rails.logger.info "Resetting history of #{name}"
     self.formulae.each { |f| f.revisions.nullify }
     self.revisions.destroy
+    self.revisions.clear
     self.authors.destroy
+    self.authors.clear
 
     generate_history
   end
