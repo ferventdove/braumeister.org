@@ -11,8 +11,10 @@ describe Formula do
     @formula = Formula.new name: 'git'
   end
 
-  it 'has a path' do
-    @formula.path.should eq('Library/Formula/git.rb')
+  describe '#path' do
+    it 'returns the relative path' do
+      @formula.path.should eq('Library/Formula/git.rb')
+    end
   end
 
 end
