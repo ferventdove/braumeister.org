@@ -182,6 +182,11 @@ div#footer {
   text-align:    center;
 }
 
+div#footer a:first-child {
+  color:       #b5af87 !important;
+  font-weight: normal;
+}
+
 div#header {
   text-align:  right;
   font-family: 'Neuton', 'Times New Roman', serif;
