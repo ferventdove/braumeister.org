@@ -198,36 +198,43 @@ class Repository
 
   def formulae_info(formulae)
     pipe_read, pipe_write = IO.pipe
+
     pid = fork do
-      pipe_read.close
+      begin
+        pipe_read.close
 
-      $LOAD_PATH.unshift File.join(path, 'Library', 'Homebrew')
+        $LOAD_PATH.unshift File.join(path, 'Library', 'Homebrew')
 
-      Object.send :remove_const, :Formula
+        Object.send :remove_const, :Formula
 
-      $homebrew_path = path
-      require 'sandbox_backtick'
+        $homebrew_path = path
+        require 'sandbox_backtick'
 
-      load File.join(path, 'Library', 'Homebrew', 'global.rb')
-      load File.join(path, 'Library', 'Homebrew', 'formula.rb')
+        load File.join(path, 'Library', 'Homebrew', 'global.rb')
+        load File.join(path, 'Library', 'Homebrew', 'formula.rb')
 
-      formulae_info = {}
-      formulae.each do |name|
-        begin
-          formula = Formula.factory name
-          formulae_info[name] = {
-            deps: formula.deps,
-            homepage: formula.homepage,
-            version: formula.version
-          }
-        rescue TypeError
-          const = $!.message.match(/^(.*?) is not a class/)[1].to_sym
-          Object.send :remove_const, const
-          redo
+        formulae_info = {}
+        formulae.each do |name|
+          begin
+            formula = Formula.factory name
+            formulae_info[name] = {
+              deps: formula.deps,
+              homepage: formula.homepage,
+              version: formula.version
+            }
+          rescue TypeError
+            const = $!.message.match(/^(.*?) is not a class/)[1].to_sym
+            Object.send :remove_const, const
+            redo
+          end
         end
+
+        Marshal.dump formulae_info, pipe_write
+      rescue
+        Marshal.dump RuntimeError.new("#{$!.class}: #{$!.message}"), pipe_write
       end
 
-      Marshal.dump formulae_info, pipe_write
+      pipe_write.flush
       pipe_write.close
 
       exit!
@@ -235,6 +242,7 @@ class Repository
 
     pipe_write.close
     formulae_info = Marshal.load pipe_read
+    raise formulae_info if formulae_info.is_a? RuntimeError
     pipe_read.close
 
     Process.wait pid
