@@ -131,7 +131,7 @@ class Repository
   def refresh
     formulae, aliases, last_sha = clone_or_pull
 
-    if changes.size == 0
+    if formulae.size == 0 && aliases.size == 0
       Rails.logger.info 'No formulae changed.'
       return
     end
