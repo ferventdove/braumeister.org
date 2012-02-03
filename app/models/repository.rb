@@ -32,7 +32,7 @@ class Repository
 
       if last_sha == sha
         Rails.logger.info "Repository #{name} is already up-to-date"
-        return [], last_sha
+        return [], [], last_sha
       end
 
       git "--work-tree #{path} reset --hard --quiet FETCH_HEAD"
@@ -45,7 +45,7 @@ class Repository
 
       if last_sha == sha
         Rails.logger.info "Repository #{name} is already up-to-date"
-        return [], last_sha
+        return [], [], last_sha
       end
     end
 
