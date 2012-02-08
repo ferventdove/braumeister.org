@@ -52,7 +52,6 @@ class FormulaeController < ApplicationController
 
   def sitemap
     @repository = Repository.where(name: 'mxcl/homebrew').first
-    @formulae = @repository.formulae.order_by([:date, :desc]).limit 50
 
     respond_to do |format|
       format.xml
