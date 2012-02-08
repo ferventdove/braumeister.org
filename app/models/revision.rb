@@ -15,4 +15,8 @@ class Revision
   belongs_to :repository
   belongs_to :author
 
+  has_and_belongs_to_many :added_formulae, class_name: 'Formula', inverse_of: nil
+  has_and_belongs_to_many :updated_formulae, class_name: 'Formula', inverse_of: nil
+  has_and_belongs_to_many :removed_formulae, class_name: 'Formula', inverse_of: nil
+
 end

@@ -41,7 +41,7 @@ class FormulaeController < ApplicationController
 
   def feed
     @repository = Repository.where(name: 'mxcl/homebrew').first
-    @formulae = @repository.formulae.order_by([:date, :desc]).limit 50
+    @revisions = @repository.revisions.order_by([:date, :desc]).limit 50
 
     respond_to do |format|
       format.atom

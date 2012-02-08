@@ -102,15 +102,23 @@ class Repository
       rev.author.save!
       rev.date = info[1].to_i
       rev.subject = info[4]
-      rev.save!
-      revisions << rev
       formulae.each do |formula|
-        formula = self.formulae.where(name: formula.split[1].sub(FORMULA_REGEX, '\1')).first
+        status, name = formula.split
+        formula = self.formulae.where(name: name.sub(FORMULA_REGEX, '\1')).first
         next if formula.nil?
         formula.revisions << rev
         formula.date = rev.date if formula.date.nil? || rev.date > formula.date
         formula.save!
+        if status == 'A'
+          rev.added_formulae << formula
+        elsif status == 'M'
+          rev.updated_formulae << formula
+        elsif status == 'D'
+          rev.removed_formulae << formula
+        end
       end
+      rev.save!
+      revisions << rev
     end
     self.revisions += revisions
     save!

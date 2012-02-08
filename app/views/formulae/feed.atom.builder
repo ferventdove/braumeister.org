@@ -9,29 +9,25 @@ atom_feed id: "tag:braumeister.org:#{@repository.name}", schema_date: 2012 do |f
   feed.title "braumeister.org – Recent changes in #{@repository.name}"
   feed.updated @repository.updated_at
 
-  @formulae.each do |formula|
-    revisions = formula.revisions.order_by [:date, :asc]
+  add_entry = ->(status, formula, revision) do
     entry_options = {
       id: "tag:braumeister.org:#{@repository.name}/#{formula.name}",
-      published: revisions.first.date,
-      updated: formula.date
+      published: formula.date
     }
 
     feed.entry formula, entry_options do |entry|
-      title = "#{formula.name} has been "
-      if formula.removed?
-        title << 'removed'
-      elsif formula.revisions.size == 1
-        title << 'added'
-      else
-        title << 'updated'
-      end
-      entry.title title
-      entry.summary revisions.last.subject
+      entry.title "#{formula.name} has been #{status}"
+      entry.summary revision.subject
 
       entry.author do |author|
-        author.name revisions.last.author.name
+        author.name revision.author.name
       end
     end
+  end
+
+  @revisions.each do |revision|
+    revision.added_formulae.each { |formula| add_entry.call('added', formula, revision) }
+    revision.updated_formulae.each { |formula| add_entry.call('updated', formula, revision) }
+    revision.removed_formulae.each { |formula| add_entry.call('removed', formula, revision) }
   end
 end
