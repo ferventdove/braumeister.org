@@ -251,11 +251,10 @@ class Repository
     end
 
     pipe_write.close
+    Process.wait pid
     formulae_info = Marshal.load pipe_read
     pipe_read.close
     raise formulae_info if formulae_info.is_a? RuntimeError
-
-    Process.wait pid
 
     formulae_info
   end
