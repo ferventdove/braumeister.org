@@ -1,0 +1,406 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import url(http://fonts.googleapis.com/css?family=Neuton:400,800);
+
+$black:  #000000;
+$beige:  #ffffbb;
+$orange: #dd9800;
+$sand:   #b5af87;
+
+html {
+  background: #353030;
+  width:      100%;
+}
+
+body {
+  color:       #a15f11;
+  font-family: Helvetica, sans-serif;
+  margin:      2em 0 1em 5em;
+  width:       980px;
+}
+
+a {
+  color:           $orange;
+  font-style:      normal;
+  font-weight:     bold;
+  text-decoration: none;
+
+  &:hover, &:active {
+    color: $beige !important;
+  }
+}
+
+div#basic h2:last-child {
+  margin-bottom: 0.2em;
+}
+
+div#basic h2.removed:first-line {
+  color: #dd0000 !important;
+}
+
+div#basic, div#deps, div#last-change, div#history, div#revdeps {
+  @include border-radius(4px);
+  @include box-shadow(#232020 3px 3px 3px);
+
+  background: #595945;
+  padding:    0.8em !important;
+  margin:     1em 0.5em;
+}
+
+div#change-info {
+  padding-left: 2em !important;
+}
+
+div#basic a:hover, div#change-info a:hover {
+  color: $beige;
+}
+
+div#content {
+  @include border-radius(4px 4px 0 0);
+  @include box-shadow($black 4px 4px 4px);
+
+  background: #47463b;
+  border:     2px solid $beige;
+  color:      $sand;
+  padding:    1em 3.5em;
+  text-align: justify;
+
+  a.formula {
+    color:       $orange;
+    font-family: 'Neuton', serif;
+    font-size:   1.8em;
+    text-shadow: 1px 1px 1px $black;
+
+    &:hover {
+      color: $beige;
+    }
+  }
+
+  div {
+    padding: 0.5em 0.5em 1em 0.5em;
+
+    &.formula {
+      color:     $sand;
+      font-size: 0.8em;
+
+      &.even {
+        background: #47463b;
+      }
+
+      &.odd {
+        background: #595945;
+      }
+
+      a {
+        font-weight: normal;
+      }
+
+      strong.version {
+        color: $orange;
+      }
+    }
+  }
+
+  div.listing {
+    @include border-radius(4px);
+
+    border: 2px solid #a15f11;
+    margin: 2em 0;
+  }
+
+  nav + div.listing {
+    padding: 0;
+  }
+
+  div.error {
+    font-weight: bold;
+    text-align:  center;
+  }
+}
+
+div#deps, div#revdeps {
+  em {
+    color:       $orange;
+    font-family: 'Neuton', serif;
+    font-size:   1.5em;
+    font-style:  normal;
+    text-shadow: 1px 1px 1px $black;
+  }
+
+  ul {
+    @include border-radius(3px);
+
+    border:       1px solid #232020;
+    margin-left:  2em;
+    padding-left: 0;
+  }
+}
+
+div#flash-error, div#flash-notice {
+  @include border-radius(0 0 5px 5px);
+
+  border:      2px solid;
+  border-top:  none !important;
+  font-family: 'Helvetica', sans-serif;
+  font-size:   12pt;
+  font-weight: bold;
+  left:        -2em;
+  margin:      -1em 0 0 289px;
+  padding:     2px !important;
+  position:    absolute;
+  text-align:  center;
+  width:       588px;
+}
+
+div#flash-error {
+  background:   #f99;
+  border-color: #a00 !important;
+  color:        #a00;
+}
+
+div#flash-notice {
+  background:   #9f9;
+  border-color: #0a0 !important;
+  color:        #0a0;
+}
+
+div#footer {
+  @include border-radius(0 0 4px 4px);
+  @include box-shadow($black 4px 4px 4px);
+
+  background: #232020;
+  color:      $sand;
+  font-size:  10pt;
+  padding:    0.5em 0;
+  text-align: center;
+
+  a:first-child {
+    color:       $sand !important;
+    font-weight: normal;
+  }
+}
+
+div#header {
+  text-align:  right;
+  font-family: 'Neuton', 'Times New Roman', serif;
+  font-size:   7em;
+  font-weight: bolder;
+  text-shadow: $black 10px 10px 1px;
+
+  a {
+    color:           $orange;
+    text-decoration: none;
+  }
+
+  img {
+    margin: -0.2em -0.5em 0 -0.1em;
+  }
+}
+
+div#deps h2, div#history h2, div#last-change h2, div#revdeps h2 {
+  @include box-shadow(0 1px #232020);
+
+  border-bottom: 1px solid $orange;
+}
+
+div#history table {
+  border-collapse: collapse;
+  width:           100%;
+}
+
+div#history {
+  a {
+    height:   100%;
+    position: absolute;
+    width:    100%;
+  }
+
+  td {
+    font-size:      10pt;
+    padding:        1pt 3pt;
+    position:       relative;
+    vertical-align: top;
+
+    &.author {
+      font-weight: bold;
+    }
+
+    &.subject {
+      font-family: monospace;
+      font-size:   9pt;
+      width:       60%;
+    }
+  }
+
+  tr {
+    &:not(:last-child) {
+      border-bottom: 1px solid #595945;
+    }
+
+    &:hover {
+      background: #737359;
+      color:      $beige;
+    }
+  }
+}
+
+div#home {
+  border-bottom: 1px solid #a15f11;
+  text-align:    center;
+
+  a.center, h2 {
+    font-family: 'Neuton', serif;
+    font-size:   22pt;
+
+    text-shadow: 1px 1px 1px $black;
+  }
+
+  a.center {
+    display: block;
+    margin:  1em 0 0 0;
+  }
+
+  h2 {
+    color:   $orange;
+    margin:  0.5em 0;
+    display: inline;
+  }
+
+  form {
+    display: inline;
+  }
+}
+
+div#last-change strong.subject {
+  display:       block;
+  font-family:   monospace;
+  margin-bottom: 1em;
+  padding-left:  1em;
+}
+
+div#social {
+  float:       left;
+  font-size:   10pt;
+  line-height: 1em;
+}
+
+div#header div#social {
+  margin: 5em 0 0 2em;
+}
+
+div#timestamps {
+  border-top:  1px solid #a15f11;
+  color:       $sand;
+  font-family: 'Helvetica', sans-serif;
+  font-size:   9pt;
+  margin:      0 auto;
+  padding-top: 2em !important;
+  width:       80%;
+}
+
+div.recently-added h3 {
+  color: #44cc44;
+}
+
+div.recently-removed h3 {
+  color: #cc4444;
+}
+
+div.recently-added, div.recently-removed, div.recently-updated {
+  float: left;
+  width: 31%;
+
+  div.formula strong {
+    float:          right;
+    line-height:    1.8em;
+    vertical-align: middle;
+  }
+
+  div.listing {
+    @include border-radius(4px);
+
+    min-height: 13.8em;
+    margin:     0.5em !important;
+    padding:    0 !important;
+  }
+
+  h3 {
+    text-align:  center;
+    text-shadow: 1px 1px 1px $black;
+  }
+}
+
+div.recently-removed + * {
+  clear: both;
+}
+
+h1 {
+  color:           $orange;
+  border-bottom:   2px solid $sand;
+  font-family:     'Neuton', serif;
+  font-size:       28pt;
+  line-height:     28pt;
+  text-decoration: none;
+  text-shadow:     $black 2px 2px 1px;
+}
+
+h2 {
+  color:     $beige;
+  font-size: 15pt;
+  margin:    0 0 1em 0;
+
+  em {
+    color:       $orange;
+    text-shadow: $black 2px 2px 1px;
+  }
+}
+
+h3 {
+  font-size: 12pt;
+}
+
+img {
+  border: none;
+}
+
+img#github-ribbon {
+  border:   none;
+  left:     0;
+  position: absolute;
+  top:      0;
+  z-index:  -1;
+}
+
+input {
+  @include border-radius(5px);
+
+  background: #232020;
+  border:     1px solid #a15f11;
+  color:      $black;
+  font-size:  1.3em;
+  margin:     1.5em 0;
+
+  &.inactive {
+    color: #555050;
+  }
+}
+
+nav {
+  margin:     0.5em 0;
+  text-align: center;
+}
+
+nav span.current, ul#letters span.current {
+  color:       $sand;
+  font-weight: bold;
+  text-shadow: $orange 0 0 4px;
+}
+
+ul#letters {
+  list-style: none;
+
+  li {
+    display:       inline;
+    padding-right: 1em;
+  }
+}
