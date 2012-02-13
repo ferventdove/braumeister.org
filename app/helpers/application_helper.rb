@@ -7,6 +7,14 @@
 
 module ApplicationHelper
 
+  def timestamp(time)
+    options = {
+      class: 'timeago',
+      title: l(time, format: :long)
+    }
+    content_tag :abbr, time.to_s, options
+  end
+
   def title
     title = 'braumeister.org'
     title = "#{@title} – #{title}" unless @title.nil?

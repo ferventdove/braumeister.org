@@ -46,7 +46,7 @@
 </div>
 
 <div id="timestamps">
-  Last updated at <%= l @repository.updated_at, format: :long %><br />
-  Last change at <%= l @repository.date, format: :long %><br />
+  The repository has been updated <%= timestamp @repository.updated_at %>.<br />
+  The last change happened <%= timestamp @repository.date %>.<br />
   Current Git commit SHA: <%= link_to @repository.sha, "https://github.com/#{@repository.name}/tree/#{@repository.sha}" %>
 </div>

@@ -17,8 +17,8 @@
   <h2>Last change</h2>
   <strong class="subject"><%= @current_revision.subject %></strong>
   <div id="change-info">
-    by <strong><%= @current_revision.author.name %></strong>
-    at <strong><%= l @current_revision.date, format: :long %></strong><br />
+    by <strong><%= @current_revision.author.name %></strong>,
+    <strong><%= timestamp @current_revision.date %></strong><br />
     Git commit SHA: <%= link_to @current_revision.sha, "https://github.com/#{@repository.name}/commit/#{@current_revision.sha}##{@formula.path}" %>
   </div>
 </div>

@@ -1,6 +1,11 @@
 //= require flattr
 //= require jquery
 //= require jquery_ujs
+//= require jquery.timeago
+
+$(function() {
+  $('abbr.timeago').timeago();
+});
 
 var formHandler = function() {
   if($('#search').val() == $('#search')[0].defaultValue) {
