@@ -21,7 +21,7 @@ class FormulaeController < ApplicationController
       term = params[:search]
       @title = "Search for: #{term}"
       @formulae = @repository.formulae.
-        where name: /#{term}/i, removed: false
+        where name: /#{Regexp.escape term}/i, removed: false
 
       if @formulae.size == 1 && term == @formulae.first.name
         redirect_to formula_path(@formulae.first)
