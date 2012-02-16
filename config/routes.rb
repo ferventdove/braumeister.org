@@ -15,7 +15,7 @@ Braumeister::Application.routes.draw do
     get '' => redirect('/browse/a'), on: :collection
     get ':search(/:page)', action: :index, on: :collection,
         as: :search,
-        constraints: { page: /\d+/ }
+        constraints: { page: /\d+/, search: /[^\/]+/ }
   end
 
   resources :formula, controller: :formulae, only: :show,
