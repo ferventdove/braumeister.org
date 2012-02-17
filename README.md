@@ -36,8 +36,8 @@ development:
 
 ## About the name
 
-"Braumeister" is the German word for "master brewer" or "brewmaster", the
-person in charge of beer production.
+"Braumeister" – [ˈbʁaʊmʌɪstəʀ] – is the German word for "master brewer" or
+"brewmaster", then person in charge of beer production.
 
 ## License
 
