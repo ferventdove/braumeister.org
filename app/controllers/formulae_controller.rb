@@ -9,9 +9,9 @@ require 'text'
 
 class FormulaeController < ApplicationController
 
-  def index
-    @repository = Repository.where(name: 'mxcl/homebrew').first
+  before_filter :select_repository
 
+  def index
     if params[:search].nil? || params[:search].empty?
       letter = params[:letter]
       letter = 'a' if letter.nil? || letter.empty?
@@ -40,7 +40,6 @@ class FormulaeController < ApplicationController
   end
 
   def feed
-    @repository = Repository.where(name: 'mxcl/homebrew').first
     @revisions = @repository.revisions.order_by([:date, :desc]).limit 50
 
     respond_to do |format|
@@ -51,8 +50,6 @@ class FormulaeController < ApplicationController
   end
 
   def sitemap
-    @repository = Repository.where(name: 'mxcl/homebrew').first
-
     respond_to do |format|
       format.xml
     end
@@ -61,7 +58,6 @@ class FormulaeController < ApplicationController
   end
 
   def show
-    @repository = Repository.where(name: 'mxcl/homebrew').first
     @formula = @repository.formulae.where(name: params[:id]).first
     if @formula.nil?
       formula = @repository.formulae.all_in(aliases: [params[:id]]).first
@@ -76,6 +72,12 @@ class FormulaeController < ApplicationController
     @current_revision = @revisions.shift
 
     fresh_when etag: @current_revision.sha, public: true
+  end
+
+  private
+
+  def select_repository
+    @repository = Repository.find 'mxcl/homebrew'.identify
   end
 
 end
