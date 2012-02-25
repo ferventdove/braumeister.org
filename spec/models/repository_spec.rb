@@ -48,7 +48,7 @@ describe Repository do
   describe '#clone_or_pull' do
 
     it 'clones a new repository' do
-      File.expects(:exists?).never.with repo.path
+      File.expects(:exists?).with(repo.path).returns false
       repo.expects(:git).with "clone --quiet #{repo.url} #{repo.path}"
       repo.expects(:git).with('log -1 --format=format:"%H %ct" HEAD').
         returns 'deadbeef 1325844635'

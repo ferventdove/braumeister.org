@@ -23,7 +23,7 @@ class Repository
   def clone_or_pull
     last_sha = sha
 
-    if !last_sha.nil? && File.exists?(path)
+    if File.exists? path
       Rails.logger.info "Pulling changes from #{name} into #{path}"
       git 'fetch --force --quiet origin master'
 
