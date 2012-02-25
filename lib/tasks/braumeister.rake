@@ -25,31 +25,29 @@ namespace :braumeister do
 
   Rails.logger = Logger.new STDOUT
 
-  HOMEBREW = 'mxcl/homebrew'
-
-  desc 'Completely regenerates the repository and all its formulae'
+  desc 'Completely regenerates all repositories and their formulae'
   task_with_tracing regenerate: :environment do
-    repo = Repository.find_or_create_by name: HOMEBREW
-    repo.authors.clear
-    repo.formulae.clear
-    repo.revisions.clear
-    repo.sha = nil
-    FileUtils.rm_rf repo.path
-    repo.refresh
-    repo.save!
+    Repository.all.each do |repo|
+      repo.authors.clear
+      repo.formulae.clear
+      repo.revisions.clear
+      repo.sha = nil
+      FileUtils.rm_rf repo.path
+      repo.refresh
+      repo.save!
+    end
   end
 
-  desc 'Regenerates the history of all formulae in the repository'
+  desc 'Regenerates the history of all repositories'
   task_with_tracing regenerate_history: :environment do
+    Repository.all.each &:generate_history!
     repo = Repository.find_or_create_by name: HOMEBREW
     repo.generate_history!
   end
 
-  desc 'Pulls the latest changes from or clones the repository'
+  desc 'Pulls the latest changes from the repositories'
   task_with_tracing update: :environment do
-    repo = Repository.find_or_create_by name: HOMEBREW
-    repo.refresh
-    repo.save!
+    Repository.all.each &:refresh
   end
 
 end

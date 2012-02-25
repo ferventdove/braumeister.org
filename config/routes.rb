@@ -5,6 +5,27 @@
 
 Braumeister::Application.routes.draw do
 
+  resources :repositories, path: 'repos', only: [],
+            constraints: { repository_id: /[0-9A-Za-z_-]+?\/[0-9A-Za-z_-]+/ } do
+    resources :formulae, only: :index, path: 'browse' do
+      get ':letter(/:page)', action: :index, on: :collection,
+          as: :letter,
+          constraints: { letter: /[A-Za-z]/, page: /\d+/ }
+    end
+
+    resources :formulae, only: :index, path: 'search' do
+      get '' => redirect('/browse/a'), on: :collection
+      get ':search(/:page)', action: :index, on: :collection,
+          as: :search,
+          constraints: { page: /\d+/, search: /[^\/]+/ }
+    end
+
+    resources :formula, controller: :formulae, only: :show,
+              constraints: { id: /.*/ }
+
+    match '/feed' => 'formulae#feed', as: :feed
+  end
+
   resources :formulae, only: :index, path: 'browse' do
     get ':letter(/:page)', action: :index, on: :collection,
         as: :letter,

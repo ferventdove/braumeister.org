@@ -77,7 +77,8 @@ class FormulaeController < ApplicationController
   private
 
   def select_repository
-    @repository = Repository.find 'mxcl/homebrew'.identify
+    params[:repository_id] ||= 'mxcl/homebrew'
+    @repository = Repository.find params[:repository_id].identify
   end
 
 end

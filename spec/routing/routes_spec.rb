@@ -9,7 +9,7 @@ describe 'routing' do
   it 'routes / to application#home' do
     { get: '/' }.should route_to('application#home')
   end
-  
+
   it 'routes /browse/:letter to formulae#index' do
     { get: '/browse/a' }.should route_to(
       'formulae#index',
@@ -51,10 +51,60 @@ describe 'routing' do
     { get: '/feed.atom' }.should route_to('formulae#feed', format: 'atom')
   end
 
+  it 'routes /repos/adamv/homebrew-alt/browse/:letter to formulae#index' do
+    { get: '/repos/adamv/homebrew-alt/browse/a' }.should route_to(
+      'formulae#index',
+      letter: 'a',
+      repository_id: 'adamv/homebrew-alt'
+    )
+  end
+
+    it 'routes /repos/adamv/homebrew-alt/browse/:letter/:page to formulae#index' do
+    { get: '/repos/adamv/homebrew-alt/browse/a/2' }.should route_to(
+      'formulae#index',
+      letter: 'a',
+      page: '2',
+      repository_id: 'adamv/homebrew-alt'
+    )
+  end
+
+  it 'routes /repos/adamv/homebrew-alt/search/:search to formulae#index' do
+    { get: '/repos/adamv/homebrew-alt/search/git' }.should route_to(
+      'formulae#index',
+      repository_id: 'adamv/homebrew-alt',
+      search: 'git'
+    )
+  end
+
+  it 'routes /repos/adamv/homebrew-alt/search/:search/:page to formulae#index' do
+    { get: '/repos/adamv/homebrew-alt/search/git/2' }.should route_to(
+      'formulae#index',
+      repository_id: 'adamv/homebrew-alt',
+      search: 'git',
+      page: '2'
+    )
+  end
+
+  it 'routes /repos/adamv/homebrew-alt/formula/:name to formulae#show for name' do
+    { get: '/repos/adamv/homebrew-alt/formula/git' }.should route_to(
+      'formulae#show',
+      id: 'git',
+      repository_id: 'adamv/homebrew-alt'
+    )
+  end
+
+  it 'routes /repos/adamv/homebrew-alt/feed.atom to formulae#feed' do
+    { get: '/repos/adamv/homebrew-alt/feed.atom' }.should route_to(
+      'formulae#feed',
+      format: 'atom',
+      repository_id: 'adamv/homebrew-alt'
+    )
+  end
+
   it 'routes /sitemap.xml to formulae#sitemap' do
     { get: '/sitemap.xml' }.should route_to('formulae#sitemap', format: 'xml')
   end
-  
+
   it 'routes unknown URLs to application#not_found' do
     { get: '/unknown' }.should route_to('application#not_found', url: 'unknown')
   end
