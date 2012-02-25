@@ -27,8 +27,8 @@ class Repository
       Rails.logger.info "Pulling changes from #{name} into #{path}"
       git 'fetch --force --quiet origin master'
 
-      log  = git('log -1 --format=format:"%H %ct" FETCH_HEAD').split
-      self.sha  = log[0]
+      log = git('log -1 --format=format:"%H %ct" FETCH_HEAD').split
+      self.sha = log[0]
 
       if last_sha == sha
         Rails.logger.info "Repository #{name} is already up-to-date"
@@ -40,8 +40,8 @@ class Repository
       Rails.logger.info "Cloning #{name} into #{path}"
       git "clone --quiet #{url} #{path}"
 
-      log  = git('log -1 --format=format:"%H %ct" HEAD').split
-      self.sha  = log[0]
+      log = git('log -1 --format=format:"%H %ct" HEAD').split
+      self.sha = log[0]
 
       if last_sha == sha
         Rails.logger.info "Repository #{name} is already up-to-date"
