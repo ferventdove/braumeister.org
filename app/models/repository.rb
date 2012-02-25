@@ -239,7 +239,9 @@ class Repository
           end
         end
 
-        Marshal.dump formulae_info, pipe_write
+        data = Marshal.dump formulae_info
+        data.force_encoding 'utf-8'
+        pipe_write.write data
       rescue
         Marshal.dump RuntimeError.new("#{$!.class}: #{$!.message}"), pipe_write
       end
