@@ -25,9 +25,13 @@ namespace :braumeister do
 
   Rails.logger = Logger.new STDOUT
 
-  desc 'Completely regenerates all repositories and their formulae'
-  task_with_tracing regenerate: :environment do
-    Repository.all.each do |repo|
+  task :select_repos, [:repo] => :environment do |t, args|
+    @repos = args[:repo].nil? ? Repository.all : Repository.where(name: args[:repo])
+  end
+
+  desc 'Completely regenerates one or all repositories and their formulae'
+  task_with_tracing :regenerate, [:repo] => :select_repos do
+    @repos.each do |repo|
       repo.authors.clear
       repo.formulae.clear
       repo.revisions.clear
@@ -38,16 +42,14 @@ namespace :braumeister do
     end
   end
 
-  desc 'Regenerates the history of all repositories'
-  task_with_tracing regenerate_history: :environment do
-    Repository.all.each &:generate_history!
-    repo = Repository.find_or_create_by name: HOMEBREW
-    repo.generate_history!
+  desc 'Regenerates the history of one or all repositories'
+  task_with_tracing :regenerate_history, [:repo] => :select_repos do
+    @repos.each &:generate_history!
   end
 
-  desc 'Pulls the latest changes from the repositories'
-  task_with_tracing update: :environment do
-    Repository.all.each &:refresh
+  desc 'Pulls the latest changes from one or all repositories'
+  task_with_tracing :update, [:repo] => :select_repos do
+    @repos.each &:refresh
   end
 
 end
