@@ -9,9 +9,9 @@ class Repository
   include Mongoid::Timestamps::Updated
 
   ALIAS_REGEX   = /^(?:Library\/)?Aliases\/(.+?)$/
-  FORMULA_REGEX = /^(?:Library\/)?Formula\/(.+?)\.rb$/
 
   field :date, type: Time
+  field :full, type: Boolean
   field :name, type: String
   field :sha, type: String
   key :name
@@ -19,6 +19,10 @@ class Repository
   has_many :authors
   has_many :formulae, dependent: :destroy
   has_many :revisions, dependent: :destroy
+
+  def self.main
+    Repository.find 'mxcl/homebrew'.identify
+  end
 
   def clone_or_pull
     last_sha = sha
@@ -52,19 +56,27 @@ class Repository
     self.date = Time.at log[1].to_i
 
     if last_sha.nil?
-      formulae = git 'ls-tree --name-only HEAD Library/Formula/'
-      formulae = formulae.lines.map { |file| ['A', file.strip] }
+      if full?
+        formulae = git 'ls-tree --name-only HEAD Library/Formula/'
+        formulae = formulae.lines.map { |file| ['A', file.strip] }
 
-      aliases = git 'ls-tree --name-only HEAD Library/Aliases/'
-      aliases = aliases.lines.map { |file| ['A', file.strip] }
+        aliases = git 'ls-tree --name-only HEAD Library/Aliases/'
+        aliases = aliases.lines.map { |file| ['A', file.strip] }
+      else
+        formulae = git 'ls-tree --name-only -r HEAD'
+        formulae = formulae.lines.select { |file| file.match formula_regex }.
+          map { |file| ['A', file.strip] }
+
+        aliases = []
+      end
 
       Rails.logger.info "Checked out #{sha} in #{path}"
     else
       diff = git "diff --name-status #{last_sha}..HEAD"
       diff = diff.lines.map { |file| file.split }
 
-      formulae = diff.select { |file| file[1] =~ FORMULA_REGEX }
-      aliases = diff.select { |file| file[1] =~ ALIAS_REGEX }
+      formulae = diff.select { |file| file[1] =~ formula_regex }
+      aliases = full? ? diff.select { |file| file[1] =~ ALIAS_REGEX } : []
 
       Rails.logger.info "Updated #{name} from #{last_sha} to #{sha}:"
     end
@@ -90,7 +102,10 @@ class Repository
 
     Rails.logger.info "Regenerating history for #{ref}"
 
-    log = git "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse #{ref} -- 'Formula' 'Library/Formula'"
+    log_cmd = "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse #{ref} -- "
+    log_cmd << (full? ? "'Formula' 'Library/Formula'" : "'*.rb'")
+    log = git log_cmd
+
     revisions = []
     commits = log.split(/\n\n/)
     commits.each do |commit|
@@ -104,7 +119,8 @@ class Repository
       rev.subject = info[4]
       formulae.each do |formula|
         status, name = formula.split
-        formula = self.formulae.where(name: name.sub(FORMULA_REGEX, '\1')).first
+        name = File.basename name.match(formula_regex)[1]
+        formula = self.formulae.where(name: name).first
         next if formula.nil?
         formula.revisions << rev
         formula.date = rev.date if formula.date.nil? || rev.date > formula.date
@@ -148,13 +164,14 @@ class Repository
 
     updated_formulae = []
     formulae.each do |type, fpath|
-      updated_formulae << fpath.match(FORMULA_REGEX)[1] unless type == 'D'
+      updated_formulae << fpath.match(formula_regex)[1] unless type == 'D'
     end
     formulae_info = formulae_info updated_formulae
 
     added = modified = removed = 0
     formulae.each do |type, fpath|
-      formula = self.formulae.find_or_initialize_by name: fpath.match(FORMULA_REGEX)[1]
+      name = File.basename fpath.match(formula_regex)[1]
+      formula = self.formulae.find_or_initialize_by name: name
       if type == 'D'
         removed += 1
         formula.removed = true
@@ -208,27 +225,30 @@ class Repository
   private
 
   def formulae_info(formulae)
+    base_repo = full? ? self : Repository.main
+
     pipe_read, pipe_write = IO.pipe
 
     pid = fork do
       begin
         pipe_read.close
 
-        $LOAD_PATH.unshift File.join(path, 'Library', 'Homebrew')
+        $LOAD_PATH.unshift File.join(base_repo.path, 'Library', 'Homebrew')
 
         Object.send :remove_const, :Formula
 
-        $homebrew_path = path
+        $homebrew_path = base_repo.path
         require 'sandbox_backtick'
 
-        load File.join(path, 'Library', 'Homebrew', 'global.rb')
-        load File.join(path, 'Library', 'Homebrew', 'formula.rb')
+        load 'global.rb'
+        load 'formula.rb'
 
         formulae_info = {}
         formulae.each do |name|
           begin
+            name = "#{File.join path, name}.rb" unless full? || name.start_with?(path)
             formula = Formula.factory name
-            formulae_info[name] = {
+            formulae_info[formula.name] = {
               deps: formula.deps.map(&:to_s),
               homepage: formula.homepage,
               keg_only: formula.keg_only? != false,
@@ -259,6 +279,10 @@ class Repository
     raise formulae_info if formulae_info.is_a? RuntimeError
 
     formulae_info
+  end
+
+  def formula_regex
+    full? ? /^(?:Library\/)?Formula\/(.+?)\.rb$/ : /^(.*?)\.rb$/
   end
 
 end
