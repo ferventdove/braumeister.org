@@ -14,6 +14,7 @@ class Formula
   field :removed, type: Boolean
   field :name, type: String
   field :homepage, type: String
+  field :path, type: String
   field :version, type: String
   key :repository_id, :name
 
@@ -26,7 +27,8 @@ class Formula
   has_and_belongs_to_many :revdeps, class_name: 'Formula', inverse_of: :deps
 
   def path
-    File.join('Library', 'Formula', name) + '.rb'
+    path = repository.full? ? File.join('Library', 'Formula') : self[:path]
+    (path.nil? ? name : File.join(path, name)) + '.rb'
   end
 
   def to_param

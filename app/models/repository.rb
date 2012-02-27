@@ -119,7 +119,7 @@ class Repository
       rev.subject = info[4]
       formulae.each do |formula|
         status, name = formula.split
-        name = File.basename name.match(formula_regex)[1]
+        name = File.basename name.match(formula_regex)[1], '.rb'
         formula = self.formulae.where(name: name).first
         next if formula.nil?
         formula.revisions << rev
@@ -174,8 +174,10 @@ class Repository
 
     added = modified = removed = 0
     formulae.each do |type, fpath|
-      name = File.basename fpath.match(formula_regex)[1]
+      path, name = File.split fpath.match(formula_regex)[1]
+      name = File.basename name, '.rb'
       formula = self.formulae.find_or_initialize_by name: name
+      formula.path = (full? || path == '.' ? nil : path)
       if type == 'D'
         removed += 1
         formula.removed = true
@@ -254,7 +256,7 @@ class Repository
         formulae_info = {}
         formulae.each do |name|
           begin
-            name = "#{File.join path, name}.rb" unless full? || name.start_with?(path)
+            name = File.join path, name unless full? || name.start_with?(path)
             formula = Formula.factory name
             formulae_info[formula.name] = {
               deps: formula.deps.map(&:to_s),
@@ -290,7 +292,7 @@ class Repository
   end
 
   def formula_regex
-    full? ? /^(?:Library\/)?Formula\/(.+?)\.rb$/ : /^(.*?)\.rb$/
+    full? ? /^(?:Library\/)?Formula\/(.+?)\.rb$/ : /^(.+?\.rb)$/
   end
 
 end

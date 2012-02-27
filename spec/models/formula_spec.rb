@@ -9,6 +9,7 @@ describe Formula do
 
   before do
     @formula = Formula.new name: 'git'
+    @formula.repository = Repository.new full: true
   end
 
   describe '#path' do
