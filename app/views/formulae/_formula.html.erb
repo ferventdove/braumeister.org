@@ -1,5 +1,9 @@
 <div class="formula <%= cycle 'even', 'odd' %>">
+  <% if @repository.main? %>
     <%= link_to formula.name, formula, class: 'formula' %><br />
-    Current version: <strong class="version"><%= formula.version %></strong><br />
-    Homepage: <%= link_to formula.homepage, formula.homepage %>
+  <% else %>
+    <%= link_to formula.name, repository_formula_path(@repository.name, formula.name), class: 'formula' %><br />
+  <% end %>
+  Current version: <strong class="version"><%= formula.version %></strong><br />
+  Homepage: <%= link_to formula.homepage, formula.homepage %>
 </div>

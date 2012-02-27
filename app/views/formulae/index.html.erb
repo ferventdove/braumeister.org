@@ -1,40 +1,57 @@
 <script type="text/javascript">
+  <%= "var repositoryName = '#{@repository.name}';" unless @repository.main? %>
   $(formHandler);
 </script>
 
-<h1>Package listing</h1>
+<div id="home">
+  <strong>braumeister.org</strong> is an online package browser for
+  <%= link_to 'Homebrew', 'http://mxcl.github.com/homebrew' %> – the MacOS X
+  package manager.<br />
+  For more information on how to install and use Homebrew see its homepage.
 
-This is a listing of all packages available via the Homebrew package manager
-for MacOS X.
-
-<%= render partial: 'search' %>
-
-<ul id="letters">
-  <% ('A'..'Z').each do |letter| %>
-     <li>
-       <%= link_to_unless_current letter, letter_formulae_path(letter: letter.downcase) do %>
-         <span class="current"><%= letter %></span>
-       <% end %>
-     </li>
+  <% if @repository.main? %>
+    <%= link_to 'Browse all formulae', letter_formulae_path('a'), class: 'center' %>
+  <% else %>
+    <%= link_to 'Browse all formulae', letter_repository_formulae_path(@repository.name, 'a'), class: 'center' %>
   <% end %>
-</ul>
 
-<% if @formulae.empty? %>
-  <div class="error">Sorry, no formulae are matching your search.</div>
-<% else
-  page_params = { id: nil }
-  if params.key?(:search) && !params[:search].empty?
-    page_params[:use_route] = :search_formulae
-  end
-  pagination = paginate @formulae, params: page_params %>
+  <h2>Search a formula:</h2>
+  <%= render partial: 'formulae/search' %>
+</div>
 
-  <%= pagination %>
-
+<div class="recently-added">
+  <h3>Recently added formulae</h3>
   <div class="listing">
-    <% @formulae.each do |formula| %>
-      <%= render partial: 'formula', locals: { formula: formula } %>
+    <% @added.each do |formula| %>
+      <%= render partial: 'recent', locals: { formula: formula } %>
     <% end %>
   </div>
+</div>
 
-  <%= pagination %>
-<% end %>
+<% reset_cycle %>
+
+<div class="recently-updated">
+  <h3>Recently updated formulae</h3>
+  <div class="listing">
+    <% @updated.each do |formula| %>
+      <%= render partial: 'recent', locals: { formula: formula } %>
+    <% end %>
+  </div>
+</div>
+
+<% reset_cycle %>
+
+<div class="recently-removed">
+  <h3>Recently removed formulae</h3>
+  <div class="listing">
+    <% @removed.each do |formula| %>
+      <%= render partial: 'recent', locals: { formula: formula } %>
+    <% end %>
+  </div>
+</div>
+
+<div id="timestamps">
+  The repository has been updated <%= timestamp @repository.updated_at %>.<br />
+  The last change happened <%= timestamp @repository.date %>.<br />
+  Current Git commit SHA: <%= link_to @repository.sha, "https://github.com/#{@repository.name}/tree/#{@repository.sha}" %>
+</div>

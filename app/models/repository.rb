@@ -150,6 +150,10 @@ class Repository
     output
   end
 
+  def main?
+    name == 'mxcl/homebrew'
+  end
+
   def path
     "#{Braumeister::Application.tmp_path}/repos/#{name}"
   end

@@ -8,8 +8,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Mongoid::Errors::DocumentNotFound, with: :not_found
 
-  def home
-    @repository = Repository.where(name: 'mxcl/homebrew').first
+  def index
+    @repository ||= Repository.main
     formulae = @repository.formulae.order_by [:date, :desc]
 
     @added, @updated, @removed = [], [], []
@@ -31,10 +31,10 @@ class ApplicationController < ActionController::Base
 
   def not_found
     flash.now[:error] = 'The page you requested does not exist.'
-    home
+    index
 
     respond_to do |format|
-      format.html { render :home, status: :not_found }
+      format.html { render 'formulae/index', status: :not_found }
     end
 
     headers.delete 'ETag'

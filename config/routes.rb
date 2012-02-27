@@ -7,15 +7,15 @@ Braumeister::Application.routes.draw do
 
   resources :repositories, path: 'repos', only: [],
             constraints: { repository_id: /[0-9A-Za-z_-]+?\/[0-9A-Za-z_-]+/ } do
-    resources :formulae, only: :index, path: 'browse' do
-      get ':letter(/:page)', action: :index, on: :collection,
+    resources :formulae, only: :browse, path: 'browse' do
+      get ':letter(/:page)', action: :browse, on: :collection,
           as: :letter,
           constraints: { letter: /[A-Za-z]/, page: /\d+/ }
     end
 
-    resources :formulae, only: :index, path: 'search' do
-      get '' => redirect('/browse/a'), on: :collection
-      get ':search(/:page)', action: :index, on: :collection,
+    resources :formulae, only: :browse, path: 'search' do
+      get '', action: :browse, on: :collection, as: :search_root
+      get ':search(/:page)', action: :browse, on: :collection,
           as: :search,
           constraints: { page: /\d+/, search: /[^\/]+/ }
     end
@@ -23,18 +23,20 @@ Braumeister::Application.routes.draw do
     resources :formula, controller: :formulae, only: :show,
               constraints: { id: /.*/ }
 
+    match '/' => 'formulae#index'
+
     match '/feed' => 'formulae#feed', as: :feed
   end
 
-  resources :formulae, only: :index, path: 'browse' do
-    get ':letter(/:page)', action: :index, on: :collection,
+  resources :formulae, only: :browse, path: 'browse' do
+    get ':letter(/:page)', action: :browse, on: :collection,
         as: :letter,
         constraints: { letter: /[A-Za-z]/, page: /\d+/ }
   end
 
-  resources :formulae, only: :index, path: 'search' do
-    get '' => redirect('/browse/a'), on: :collection
-    get ':search(/:page)', action: :index, on: :collection,
+  resources :formulae, only: :browse, path: 'search' do
+    get '', action: :browse, on: :collection, as: :search_root
+    get ':search(/:page)', action: :browse, on: :collection,
         as: :search,
         constraints: { page: /\d+/, search: /[^\/]+/ }
   end
@@ -46,7 +48,7 @@ Braumeister::Application.routes.draw do
 
   match '/sitemap' => 'formulae#sitemap', as: :sitemap
 
-  root to: 'application#home'
+  root to: 'formulae#index'
 
   match '*url', to: 'application#not_found'
 

@@ -1,3 +1,4 @@
-<form action="<%= formulae_path %>" id="search-form">
+<% url = @repository.main? ? search_root_formulae_path : search_root_repository_formulae_path(@repository.name) %>
+<form action="<%= url %>" id="search-form">
   <input id="search" name="search" type="text" value="<%= params[:search] || 'search&hellip;'.html_safe %>" />
 </form>

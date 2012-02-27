@@ -26,7 +26,11 @@ var formHandler = function() {
 
   $('#search-form').submit(function() {
       if(!$('#search').hasClass('inactive')) {
-          window.location = '/search/' + $('#search').val();
+          var searchUrl = '/search/' + $('#search').val();
+          if(typeof(repositoryName) !== 'undefined') {
+            searchUrl = '/repos/' + repositoryName + searchUrl;
+          }
+          window.location = searchUrl;
       }
 
       return false;

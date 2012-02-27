@@ -11,7 +11,7 @@ class FormulaeController < ApplicationController
 
   before_filter :select_repository
 
-  def index
+  def browse
     if params[:search].nil? || params[:search].empty?
       letter = params[:letter]
       letter = 'a' if letter.nil? || letter.empty?
@@ -24,7 +24,12 @@ class FormulaeController < ApplicationController
         where name: /#{Regexp.escape term}/i, removed: false
 
       if @formulae.size == 1 && term == @formulae.first.name
-        redirect_to formula_path(@formulae.first)
+        if @repository.main?
+          redirect_to formula_path(@formulae.first)
+        else
+          redirect_to repository_formula_path(@repository.name, @formulae.first)
+        end
+        return
       end
 
       @formulae = @formulae.order_by([:name, :asc]).sort_by do |formula|
@@ -62,7 +67,11 @@ class FormulaeController < ApplicationController
     if @formula.nil?
       formula = @repository.formulae.all_in(aliases: [params[:id]]).first
       unless formula.nil?
-        redirect_to formula
+        if @repository.main?
+          redirect_to formula
+        else
+          redirect_to repository_formula_path(@repository.name, formula)
+        end
         return
       end
       raise Mongoid::Errors::DocumentNotFound.new(Formula, params[:id])
