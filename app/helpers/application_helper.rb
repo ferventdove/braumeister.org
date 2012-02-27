@@ -7,6 +7,12 @@
 
 module ApplicationHelper
 
+  def formula_link(formula, options = {})
+    options = { class: 'formula' }.merge options
+    url_options = formula.repository.main? ? formula : [ formula.repository, formula ]
+    link_to formula.name, url_for(url_options), options
+  end
+
   def timestamp(time)
     options = {
       class: 'timeago',

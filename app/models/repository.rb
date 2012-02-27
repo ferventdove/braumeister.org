@@ -222,6 +222,10 @@ class Repository
     Rails.logger.info "#{added} formulae added, #{modified} formulae modified, #{removed} formulae removed."
   end
 
+  def to_param
+    name
+  end
+
   def url
     "git://github.com/#{name}.git"
   end

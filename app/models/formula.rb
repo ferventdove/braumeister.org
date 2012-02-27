@@ -29,6 +29,10 @@ class Formula
     File.join('Library', 'Formula', name) + '.rb'
   end
 
+  def to_param
+    name
+  end
+
   def self.letter(letter)
     where(name: /^#{letter.downcase}/).order_by([:name, :asc])
   end
