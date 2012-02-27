@@ -6,35 +6,35 @@
 require 'spec_helper'
 
 describe 'routing' do
-  it 'routes / to application#home' do
-    { get: '/' }.should route_to('application#home')
+  it 'routes / to formulae#index' do
+    { get: '/' }.should route_to('formulae#index')
   end
 
-  it 'routes /browse/:letter to formulae#index' do
+  it 'routes /browse/:letter to formulae#browse' do
     { get: '/browse/a' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       letter: 'a'
     )
   end
 
   it 'routes /browse/:letter/:page to formulae#index' do
     { get: '/browse/a/2' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       letter: 'a',
       page: '2'
     )
   end
 
-  it 'routes /search/:search to formulae#index' do
+  it 'routes /search/:search to formulae#browse' do
     { get: '/search/git' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       search: 'git'
     )
   end
 
-  it 'routes /search/:search/:page to formulae#index' do
+  it 'routes /search/:search/:page to formulae#browse' do
     { get: '/search/git/2' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       search: 'git',
       page: '2'
     )
@@ -51,34 +51,41 @@ describe 'routing' do
     { get: '/feed.atom' }.should route_to('formulae#feed', format: 'atom')
   end
 
-  it 'routes /repos/adamv/homebrew-alt/browse/:letter to formulae#index' do
-    { get: '/repos/adamv/homebrew-alt/browse/a' }.should route_to(
+  it 'routes /repos/adamv/homebrew-alt to formulae#index' do
+    { get: '/repos/adamv/homebrew-alt' }.should route_to(
       'formulae#index',
+      repository_id: 'adamv/homebrew-alt'
+    )
+  end
+
+  it 'routes /repos/adamv/homebrew-alt/browse/:letter to formulae#browse' do
+    { get: '/repos/adamv/homebrew-alt/browse/a' }.should route_to(
+      'formulae#browse',
       letter: 'a',
       repository_id: 'adamv/homebrew-alt'
     )
   end
 
-    it 'routes /repos/adamv/homebrew-alt/browse/:letter/:page to formulae#index' do
+    it 'routes /repos/adamv/homebrew-alt/browse/:letter/:page to formulae#browse' do
     { get: '/repos/adamv/homebrew-alt/browse/a/2' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       letter: 'a',
       page: '2',
       repository_id: 'adamv/homebrew-alt'
     )
   end
 
-  it 'routes /repos/adamv/homebrew-alt/search/:search to formulae#index' do
+  it 'routes /repos/adamv/homebrew-alt/search/:search to formulae#browse' do
     { get: '/repos/adamv/homebrew-alt/search/git' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       repository_id: 'adamv/homebrew-alt',
       search: 'git'
     )
   end
 
-  it 'routes /repos/adamv/homebrew-alt/search/:search/:page to formulae#index' do
+  it 'routes /repos/adamv/homebrew-alt/search/:search/:page to formulae#browse' do
     { get: '/repos/adamv/homebrew-alt/search/git/2' }.should route_to(
-      'formulae#index',
+      'formulae#browse',
       repository_id: 'adamv/homebrew-alt',
       search: 'git',
       page: '2'

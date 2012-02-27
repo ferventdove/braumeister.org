@@ -7,7 +7,26 @@ require 'spec_helper'
 
 describe Repository do
 
-  let(:repo) { Repository.new name: 'mxcl/homebrew' }
+  let(:repo) { Repository.new name: 'mxcl/homebrew', full: true }
+
+  describe '.main' do
+    it 'returns the repository object for mxcl/homebrew' do
+      repo = mock
+      Repository.expects(:find).with('mxcl/homebrew'.identify).returns repo
+
+      Repository.main.should eq(repo)
+    end
+  end
+
+  describe '#main?' do
+    it 'returns true for mxcl/homebrew' do
+      repo.main?.should be_true
+    end
+
+    it 'returns false for other repositories' do
+      Repository.new(name: 'adamv/homebrew-alt').main?.should be_false
+    end
+  end
 
   describe '#path' do
     it 'returns the filesystem path of the Git repository' do
@@ -150,8 +169,8 @@ describe Repository do
       IO.expects(:pipe).returns [io, io]
 
       Object.expects(:remove_const).with :Formula
-      repo.expects(:load).with File.join(repo.path, 'Library', 'Homebrew', 'global.rb')
-      repo.expects(:load).with File.join(repo.path, 'Library', 'Homebrew', 'formula.rb')
+      repo.expects(:load).with 'global.rb'
+      repo.expects(:load).with 'formula.rb'
     end
 
     it 'uses a forked process to load formula information' do
