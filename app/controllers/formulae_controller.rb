@@ -16,10 +16,13 @@ class FormulaeController < ApplicationController
       letter = params[:letter]
       letter = 'a' if letter.nil? || letter.empty?
       @title = "Browse formulae – #{letter.upcase}"
+      @title << " – #{@repository.name}" unless @repository.main?
+
       @formulae = @repository.formulae.letter(letter).where removed: false
     else
       term = params[:search]
       @title = "Search for: #{term}"
+      @title << " in #{@repository.name}" unless @repository.main?
       @formulae = @repository.formulae.
         where name: /#{Regexp.escape term}/i, removed: false
 
@@ -80,7 +83,8 @@ class FormulaeController < ApplicationController
       end
       raise Mongoid::Errors::DocumentNotFound.new(Formula, params[:id])
     end
-    @title = @formula.name
+    @title = @formula.name.dup
+    @title << " – #{@repository.name}" unless @repository.main?
     @revisions = @formula.revisions.order_by([:date, :desc]).to_a
     @current_revision = @revisions.shift
 
