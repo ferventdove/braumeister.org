@@ -5,8 +5,14 @@
 
 <h1>Package listing</h1>
 
-This is a listing of all packages available via the Homebrew package manager
-for MacOS X.
+<% if @repository.main? %>
+  This is a listing of all packages available via the Homebrew package manager
+  for MacOS X.
+<% else %>
+  This is a listing of all Homebrew packages available via the alternative
+  repository
+  <%= link_to @repository.name, "https://github.com/#{@repository.name}" %>.
+<% end %>
 
 <%= render partial: 'search' %>
 
