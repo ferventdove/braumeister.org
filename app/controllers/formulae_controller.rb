@@ -39,6 +39,10 @@ class FormulaeController < ApplicationController
       @formulae = Kaminari.paginate_array @formulae
     end
 
+    @letters = ('A'..'Z').select do |letter|
+      @repository.formulae.letter(letter.downcase).where(removed: false).exists?
+    end
+
     @formulae = @formulae.page(params[:page]).per 50
 
     fresh_when etag: @repository.sha, public: true

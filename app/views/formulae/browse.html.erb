@@ -13,11 +13,15 @@ for MacOS X.
 <ul id="letters">
   <% ('A'..'Z').each do |letter|
     letter_url = @repository.main? ? letter_formulae_path(letter.downcase) : letter_repository_formulae_path(@repository.name, letter.downcase) %>
-     <li>
-       <%= link_to_unless_current letter, letter_url do %>
-         <span class="current"><%= letter %></span>
-       <% end %>
-     </li>
+    <li>
+      <% if @letters.include? letter %>
+        <%= link_to_unless_current letter, letter_url do %>
+          <span class="current"><%= letter %></span>
+        <% end %>
+      <% else %>
+        <%= letter %>
+      <% end %>
+    </li>
   <% end %>
 </ul>
 
