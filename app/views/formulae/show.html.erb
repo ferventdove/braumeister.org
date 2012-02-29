@@ -1,4 +1,7 @@
 <h1><%= @formula.name %></h1>
+<% unless @repository.main? %>
+  <div class="subtitle">in <%= link_to @repository.name, url_for(@repository), class: 'repo' %></div>
+<% end %>
 
 <div id="basic">
   <% if @formula.removed? %>

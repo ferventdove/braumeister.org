@@ -65,14 +65,21 @@ div#content {
   padding:    1em 3.5em;
   text-align: justify;
 
-  a.formula {
-    color:       $orange;
-    font-family: 'Neuton', serif;
-    font-size:   1.8em;
-    text-shadow: 1px 1px 1px $black;
+  a {
+    &.formula {
+      color:       $orange;
+      font-family: 'Neuton', serif;
+      font-size:   1.8em;
+      text-shadow: 1px 1px 1px $black;
 
-    &:hover {
-      color: $beige;
+      &:hover {
+        color: $beige;
+      }
+    }
+
+    &.repo {
+      font-weight: normal;
+      text-shadow: 1px 1px 1px $black;
     }
   }
 
@@ -115,6 +122,10 @@ div#content {
   div.error {
     font-weight: bold;
     text-align:  center;
+  }
+
+  div.subtitle {
+    margin: -1.8em 0 0 2em;
   }
 }
 
