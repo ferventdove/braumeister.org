@@ -5,7 +5,7 @@ gem 'dalli', '~> 1.1.4'
 gem 'jquery-rails', '~> 2.0.0'
 gem 'kaminari', '~> 0.13.0'
 gem 'mongoid', '~> 2.4.2'
-gem 'rails', '3.2.1'
+gem 'rails', '3.2.2'
 gem 'text', '~> 1.0.2'
 gem 'thin', '~> 1.3.1', platforms: :ruby
 
