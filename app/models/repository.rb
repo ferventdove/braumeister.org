@@ -239,9 +239,7 @@ class Repository
           end
         end
 
-        data = Marshal.dump formulae_info
-        data.force_encoding 'utf-8'
-        pipe_write.write data
+        Marshal.dump formulae_info, pipe_write
       rescue
         Marshal.dump RuntimeError.new("#{$!.class}: #{$!.message}"), pipe_write
       end
@@ -253,8 +251,8 @@ class Repository
     end
 
     pipe_write.close
-    Process.wait pid
     formulae_info = Marshal.load pipe_read
+    Process.wait pid
     pipe_read.close
     raise formulae_info if formulae_info.is_a? RuntimeError
 
