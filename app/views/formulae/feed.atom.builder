@@ -9,7 +9,7 @@ atom_feed id: "tag:braumeister.org:#{@repository.name}", schema_date: 2012 do |f
   feed.title "braumeister.org – Recent changes in #{@repository.name}"
   feed.updated @repository.updated_at
 
-  feed.link rel: 'search', href: '/opensearch.xml', title: 'braumeiste.org – Search',
+  feed.link rel: 'search', href: '/opensearch.xml', title: 'braumeister.org – Search',
             type: 'application/opensearchdescription+xml'
 
   add_entry = ->(status, formula, revision) do
