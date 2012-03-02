@@ -15,7 +15,8 @@ atom_feed id: "tag:braumeister.org:#{@repository.name}", schema_date: 2012 do |f
   add_entry = ->(status, formula, revision) do
     entry_options = {
       id: "tag:braumeister.org:#{@repository.name}/#{formula.name}",
-      published: formula.date
+      published: revision.date,
+      updated:   revision.date
     }
 
     feed.entry formula, entry_options do |entry|
