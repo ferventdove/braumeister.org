@@ -7,7 +7,9 @@
     <h2>Current Version:
   <% end %>
   <em><%= @formula.version %></em></h2>
-  <h2>Homepage: <em><%= link_to @formula.homepage, @formula.homepage %></em></h2>
+  <% unless @formula.homepage.nil? %>
+    <h2>Homepage: <em><%= link_to @formula.homepage, @formula.homepage %></em></h2>
+  <% end %>
   <% unless (@formula.aliases || []).empty? %>
     Also known as: <strong><%= @formula.aliases.join('</strong>, <strong>').html_safe %></strong><br>
   <% end %>
