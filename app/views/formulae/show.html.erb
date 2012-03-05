@@ -13,6 +13,9 @@
   <% unless (@formula.aliases || []).empty? %>
     Also known as: <strong><%= @formula.aliases.join('</strong>, <strong>').html_safe %></strong><br>
   <% end %>
+  <% if @formula.keg_only? %>
+    <strong>This formula is <abbr title="A keg-only formula won't be symlinked automatically.">keg-only</abbr>.</strong><br>
+  <% end %>
 </div>
 
 <div id="last-change">

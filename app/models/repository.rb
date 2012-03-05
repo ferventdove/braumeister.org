@@ -173,6 +173,7 @@ class Repository
           formula.deps << dep_formula
         end
         formula.homepage = formulae_info[formula.name][:homepage]
+        formula.keg_only = formulae_info[formula.name][:keg_only]
         formula.removed  = false
         formula.version  = formulae_info[formula.name][:version]
       end
@@ -230,6 +231,7 @@ class Repository
             formulae_info[name] = {
               deps: formula.deps,
               homepage: formula.homepage,
+              keg_only: formula.keg_only? != false,
               version: formula.version
             }
           rescue TypeError

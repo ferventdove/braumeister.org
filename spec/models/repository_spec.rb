@@ -155,16 +155,16 @@ describe Repository do
     end
 
     it 'uses a forked process to load formula information' do
-      git = mock deps: [], homepage: 'http://git-scm.com', version: '1.7.9'
-      memcached = mock deps: %w(libevent), homepage: 'http://memcached.org/', version: '1.4.11'
+      git = mock deps: [], homepage: 'http://git-scm.com', keg_only?: false, version: '1.7.9'
+      memcached = mock deps: %w(libevent), homepage: 'http://memcached.org/', keg_only?: false, version: '1.4.11'
 
       Formula.expects(:factory).with('git').returns git
       Formula.expects(:factory).with('memcached').returns memcached
 
       formulae_info = repo.send :formulae_info, %w{git memcached}
       formulae_info.should eq({
-        'git' => { deps: [], homepage: 'http://git-scm.com', version: '1.7.9' },
-        'memcached' => { deps: %w(libevent), homepage: 'http://memcached.org/', version: '1.4.11' }
+        'git' => { deps: [], homepage: 'http://git-scm.com', keg_only: false, version: '1.7.9' },
+        'memcached' => { deps: %w(libevent), homepage: 'http://memcached.org/', keg_only: false, version: '1.4.11' }
       })
     end
 
