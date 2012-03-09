@@ -229,7 +229,7 @@ class Repository
           begin
             formula = Formula.factory name
             formulae_info[name] = {
-              deps: formula.deps,
+              deps: formula.deps.map(&:to_s),
               homepage: formula.homepage,
               keg_only: formula.keg_only? != false,
               version: formula.version
