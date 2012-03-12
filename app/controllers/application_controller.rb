@@ -26,7 +26,10 @@ class ApplicationController < ActionController::Base
       break if @added.size == 5 && @updated.size == 5 && @removed.size == 5
     end
 
-    fresh_when etag: @repository.sha, public: true
+    all_repos = Repository.all.order_by [:name, :asc]
+    @alt_repos = all_repos - [ @repository ]
+
+    fresh_when last_modified: all_repos.max_by(&:updated_at).updated_at, public: true
   end
 
   def not_found

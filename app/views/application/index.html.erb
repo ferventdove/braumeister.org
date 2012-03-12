@@ -50,3 +50,14 @@
   The last change happened <%= timestamp @repository.date %>.<br />
   Current Git commit SHA: <%= link_to @repository.sha, "https://github.com/#{@repository.name}/tree/#{@repository.sha}" %>
 </div>
+
+<% unless @alt_repos.empty? %>
+  <div id="alternatives">
+    <h2>Alternative repositories:</h2>
+    <div class="listing">
+    <% @alt_repos.each do |repo| %>
+      <div class="repo"><%= link_to repo.name, letter_repository_formulae_path(repo, 'a') %></div>
+    <% end %>
+    </div>
+  </div>
+<% end %>

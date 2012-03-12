@@ -30,6 +30,51 @@ a {
   }
 }
 
+div#alternatives {
+  h2 {
+    font-family: 'Neuton', serif;
+    font-size:   1.5em;
+    color:       $orange;
+    text-align:  center;
+    text-shadow: 1px 1px 1px $black;
+  }
+
+  div#repos {
+
+  }
+
+  div.repo {
+    color:     $sand;
+    font-size: 0.8em;
+
+    &.even {
+      background: #47463b;
+    }
+
+    &.odd {
+      background: #595945;
+    }
+
+    a {
+      color:       $orange;
+      font-family: 'Neuton', serif;
+      font-size:   1.8em;
+      font-weight: normal;
+      text-shadow: 1px 1px 1px $black;
+
+      &:hover {
+        color: $beige;
+      }
+    }
+
+    strong {
+      float:          right;
+      line-height:    1.8em;
+      vertical-align: middle;
+    }
+  }
+}
+
 div#basic h2:last-child {
   margin-bottom: 0.2em;
 }
@@ -259,7 +304,7 @@ div#home {
   border-bottom: 1px solid #a15f11;
   text-align:    center;
 
-  a.center, h2 {
+  a.center, h2, & + h2 {
     font-family: 'Neuton', serif;
     font-size:   22pt;
 
@@ -279,6 +324,13 @@ div#home {
 
   form {
     display: inline;
+  }
+
+  & + h2 {
+    color:      $orange;
+    font-size:  1.3em;
+    margin-top: 0.5em;
+    text-align: center;
   }
 }
 
@@ -300,13 +352,18 @@ div#header div#social {
 }
 
 div#timestamps {
-  border-top:  1px solid #a15f11;
-  color:       $sand;
-  font-family: 'Helvetica', sans-serif;
-  font-size:   9pt;
-  margin:      0 auto;
-  padding-top: 2em !important;
-  width:       80%;
+  border-bottom:  1px solid #a15f11;
+  color:          $sand;
+  font-family:    'Helvetica', sans-serif;
+  font-size:      9pt;
+  padding-bottom: 2em !important;
+}
+
+div.listing {
+  @include border-radius(4px);
+
+  margin:     0.5em !important;
+  padding:    0 !important;
 }
 
 div.recently-added h3 {
@@ -328,11 +385,7 @@ div.recently-added, div.recently-removed, div.recently-updated {
   }
 
   div.listing {
-    @include border-radius(4px);
-
     min-height: 13.8em;
-    margin:     0.5em !important;
-    padding:    0 !important;
   }
 
   h3 {
