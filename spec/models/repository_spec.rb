@@ -174,8 +174,8 @@ describe Repository do
     end
 
     it 'uses a forked process to load formula information' do
-      git = mock deps: [], homepage: 'http://git-scm.com', keg_only?: false, version: '1.7.9'
-      memcached = mock deps: %w(libevent), homepage: 'http://memcached.org/', keg_only?: false, version: '1.4.11'
+      git = mock deps: [], homepage: 'http://git-scm.com', keg_only?: false, name: 'git', version: '1.7.9'
+      memcached = mock deps: %w(libevent), homepage: 'http://memcached.org/', keg_only?: false, name: 'memcached', version: '1.4.11'
 
       Formula.expects(:factory).with('git').returns git
       Formula.expects(:factory).with('memcached').returns memcached

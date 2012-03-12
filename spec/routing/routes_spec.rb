@@ -6,8 +6,8 @@
 require 'spec_helper'
 
 describe 'routing' do
-  it 'routes / to formulae#index' do
-    { get: '/' }.should route_to('formulae#index')
+  it 'routes / to application#index' do
+    { get: '/' }.should route_to('application#index')
   end
 
   it 'routes /browse/:letter to formulae#browse' do
@@ -51,13 +51,6 @@ describe 'routing' do
     { get: '/feed.atom' }.should route_to('formulae#feed', format: 'atom')
   end
 
-  it 'routes /repos/adamv/homebrew-alt to formulae#index' do
-    { get: '/repos/adamv/homebrew-alt' }.should route_to(
-      'formulae#index',
-      repository_id: 'adamv/homebrew-alt'
-    )
-  end
-
   it 'routes /repos/adamv/homebrew-alt/browse/:letter to formulae#browse' do
     { get: '/repos/adamv/homebrew-alt/browse/a' }.should route_to(
       'formulae#browse',
@@ -66,7 +59,7 @@ describe 'routing' do
     )
   end
 
-    it 'routes /repos/adamv/homebrew-alt/browse/:letter/:page to formulae#browse' do
+  it 'routes /repos/adamv/homebrew-alt/browse/:letter/:page to formulae#browse' do
     { get: '/repos/adamv/homebrew-alt/browse/a/2' }.should route_to(
       'formulae#browse',
       letter: 'a',
@@ -108,8 +101,8 @@ describe 'routing' do
     )
   end
 
-  it 'routes /sitemap.xml to formulae#sitemap' do
-    { get: '/sitemap.xml' }.should route_to('formulae#sitemap', format: 'xml')
+  it 'routes /sitemap.xml to application#sitemap' do
+    { get: '/sitemap.xml' }.should route_to('application#sitemap', format: 'xml')
   end
 
   it 'routes unknown URLs to application#not_found' do
