@@ -10,7 +10,7 @@ gem 'text', '~> 1.0.2'
 gem 'thin', '~> 1.3.1', platforms: :ruby
 
 group :assets do
-  gem 'compass-rails', '~> 1.0.0.rc2'
+  gem 'compass-rails', '~> 1.0.0'
   gem 'sass-rails', '~> 3.2.3'
   gem 'uglifier', '~> 1.2.1'
 end
