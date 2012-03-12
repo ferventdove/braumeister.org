@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from Mongoid::Errors::DocumentNotFound, with: :not_found
 
   def index
-    @repository ||= Repository.main
+    @repository = Repository.main
     formulae = @repository.formulae.order_by [:date, :desc]
 
     @added, @updated, @removed = [], [], []
@@ -34,11 +34,21 @@ class ApplicationController < ActionController::Base
     index
 
     respond_to do |format|
-      format.html { render 'formulae/index', status: :not_found }
+      format.html { render 'application/index', status: :not_found }
     end
 
     headers.delete 'ETag'
     expires_in 5.minutes
+  end
+
+  def sitemap
+    @repository = Repository.main
+
+    respond_to do |format|
+      format.xml
+    end
+
+    fresh_when etag: @repository.sha, public: true
   end
 
 end

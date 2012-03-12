@@ -1,6 +1,6 @@
 <h1><%= @formula.name %></h1>
 <% unless @repository.main? %>
-  <div class="subtitle">in <%= link_to @repository.name, url_for(@repository), class: 'repo' %></div>
+  <div class="subtitle">in <%= link_to @repository.name, letter_repository_formulae_path(@repository, 'a'), class: 'repo' %></div>
 <% end %>
 
 <div id="basic">

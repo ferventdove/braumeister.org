@@ -23,8 +23,6 @@ Braumeister::Application.routes.draw do
     resources :formula, controller: :formulae, only: :show,
               constraints: { id: /.*/ }
 
-    match '/' => 'formulae#index'
-
     match '/feed' => 'formulae#feed', as: :feed
   end
 
@@ -46,9 +44,9 @@ Braumeister::Application.routes.draw do
 
   match '/feed' => 'formulae#feed', as: :feed
 
-  match '/sitemap' => 'formulae#sitemap', as: :sitemap
+  match '/sitemap' => 'application#sitemap', as: :sitemap
 
-  root to: 'formulae#index'
+  root to: 'application#index'
 
   match '*url', to: 'application#not_found'
 

@@ -61,14 +61,6 @@ class FormulaeController < ApplicationController
     fresh_when etag: @repository.sha, public: true
   end
 
-  def sitemap
-    respond_to do |format|
-      format.xml
-    end
-
-    fresh_when etag: @repository.sha, public: true
-  end
-
   def show
     @formula = @repository.formulae.where(name: params[:id]).first
     if @formula.nil?

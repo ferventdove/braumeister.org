@@ -1,5 +1,4 @@
 <script type="text/javascript">
-  <%= "var repositoryName = '#{@repository.name}';" unless @repository.main? %>
   $(formHandler);
 </script>
 
@@ -9,11 +8,7 @@
   package manager.<br />
   For more information on how to install and use Homebrew see its homepage.
 
-  <% if @repository.main? %>
-    <%= link_to 'Browse all formulae', letter_formulae_path('a'), class: 'center' %>
-  <% else %>
-    <%= link_to 'Browse all formulae', letter_repository_formulae_path(@repository.name, 'a'), class: 'center' %>
-  <% end %>
+  <%= link_to 'Browse all formulae', letter_formulae_path('a'), class: 'center' %>
 
   <h2>Search a formula:</h2>
   <%= render partial: 'formulae/search' %>
