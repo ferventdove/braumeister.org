@@ -4,13 +4,14 @@
 # Copyright (c) 2012, Sebastian Staudt
 
 if defined? ::NewRelic
-  def task_with_tracing(options)
-    caller_method = options.keys.first.to_s
+  def task_with_tracing(*options)
+    caller_method = options.first
+    caller_method = caller_method.keys.first if caller_method.is_a? Hash
 
-    task options do
+    task *options do
       include NewRelic::Agent::Instrumentation::ControllerInstrumentation
 
-      perform_action_with_newrelic_trace name: caller_method, category: :task, force: true do
+      perform_action_with_newrelic_trace name: caller_method.to_s, category: :task, force: true do
         yield
       end
     end
