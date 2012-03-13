@@ -10,8 +10,8 @@ class Formula
 
   field :aliases, type: Array
   field :date, type: Time
-  field :keg_only, type: Boolean
-  field :removed, type: Boolean
+  field :keg_only, type: Boolean, default: false
+  field :removed, type: Boolean, default: false
   field :name, type: String
   field :homepage, type: String
   field :path, type: String

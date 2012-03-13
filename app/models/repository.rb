@@ -11,7 +11,7 @@ class Repository
   ALIAS_REGEX   = /^(?:Library\/)?Aliases\/(.+?)$/
 
   field :date, type: Time
-  field :full, type: Boolean
+  field :full, type: Boolean, default: false
   field :name, type: String
   field :sha, type: String
   key :name
