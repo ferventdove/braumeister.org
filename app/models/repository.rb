@@ -102,8 +102,8 @@ class Repository
 
     Rails.logger.info "Regenerating history for #{ref}"
 
-    log_cmd = "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse #{ref} -- "
-    log_cmd << (full? ? "'Formula' 'Library/Formula'" : "'*.rb'")
+    log_cmd = "log --format=format:'%H%x00%ct%x00%aE%x00%aN%x00%s' --name-status --no-merges --reverse #{ref}"
+    log_cmd << " -- 'Formula' 'Library/Formula'" if full?
     log = git log_cmd
 
     revisions = []
@@ -119,6 +119,7 @@ class Repository
       rev.subject = info[4]
       formulae.each do |formula|
         status, name = formula.split
+        next unless full? || name.match(formula_regex)
         name = File.basename name.match(formula_regex)[1], '.rb'
         formula = self.formulae.where(name: name).first
         next if formula.nil?
