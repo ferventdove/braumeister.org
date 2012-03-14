@@ -31,10 +31,6 @@ class Formula
     (path.nil? ? name : File.join(path, name)) + '.rb'
   end
 
-  def to_param
-    name
-  end
-
   def self.letter(letter)
     where(name: /^#{letter.downcase}/).order_by([:name, :asc])
   end
