@@ -173,6 +173,25 @@ describe Repository do
       repo.expects(:load).with 'formula.rb'
     end
 
+    it 'clones or updates the main repository for non-full repositories' do
+      main_repo = mock
+      Repository.expects(:main).twice.returns main_repo
+      main_repo.expects :clone_or_pull
+      main_repo.expects(:path).twice.returns 'path'
+      repo.expects(:full?).twice.returns false
+
+      repo.send :formulae_info, []
+    end
+
+    it 'sets some global information on the repo path' do
+      repo.expects(:path).twice.returns 'path'
+      $LOAD_PATH.expects(:unshift).with File.join('path', 'Library', 'Homebrew')
+
+      repo.send :formulae_info, []
+
+      $homebrew_path.should eq('path')
+    end
+
     it 'uses a forked process to load formula information' do
       git = mock deps: [], homepage: 'http://git-scm.com', keg_only?: false, name: 'git', version: '1.7.9'
       memcached = mock deps: %w(libevent), homepage: 'http://memcached.org/', keg_only?: false, name: 'memcached', version: '1.4.11'
@@ -191,6 +210,18 @@ describe Repository do
       Formula.expects(:factory).with('git').raises RuntimeError.new('subprocess failed')
 
       ->() { repo.send :formulae_info, %w{git} }.should raise_error(RuntimeError, 'RuntimeError: subprocess failed')
+    end
+
+  end
+
+  describe '#formula_regex' do
+
+    it 'returns a specific regex for full repos' do
+      Repository.new(full: true).send(:formula_regex).should eq(/^(?:Library\/)?Formula\/(.+?)\.rb$/)
+    end
+
+    it 'returns a generic regex for other repos' do
+      Repository.new.send(:formula_regex).should eq(/^(.+?\.rb)$/)
     end
 
   end
