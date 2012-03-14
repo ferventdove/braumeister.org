@@ -192,8 +192,11 @@ class Repository
         end
         formula.deps = []
         formulae_info[formula.name][:deps].each do |dep|
-          dep_formula = self.formulae.find_or_initialize_by name: dep
-          formula.deps << dep_formula
+          dep_formula = self.formulae.where(name: dep).first
+          if dep_formula.nil?
+            dep_formula = Repository.main.formulae.where(name: dep).first
+          end
+          formula.deps << dep_formula unless dep_formula.nil?
         end
         formula.homepage = formulae_info[formula.name][:homepage]
         formula.keg_only = formulae_info[formula.name][:keg_only]
