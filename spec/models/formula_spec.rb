@@ -7,15 +7,46 @@ require 'spec_helper'
 
 describe Formula do
 
-  before do
-    @formula = Formula.new name: 'git'
-    @formula.repository = Repository.new full: true
+  context 'for a formula in a full repository' do
+
+    let(:formula) do
+      repo = Repository.new name: 'mxcl/homebrew', full: true
+      Formula.new name: 'git', repository: repo
+    end
+
+    describe '#path' do
+      it 'returns the relative path' do
+        formula.path.should eq('Library/Formula/git.rb')
+      end
+    end
+
+    describe '#raw_url' do
+      it 'returns the GitHub URL of the raw formula file' do
+        formula.raw_url.should eq('https://raw.github.com/mxcl/homebrew/HEAD/Library/Formula/git.rb')
+      end
+    end
+
   end
 
-  describe '#path' do
-    it 'returns the relative path' do
-      @formula.path.should eq('Library/Formula/git.rb')
+  context 'for a formula in an alternative repository' do
+
+    let(:formula) do
+      repo = Repository.new name: 'adamv/homebrew-alt', full: false
+      Formula.new name: 'php', path: 'duplicates', repository: repo
     end
+
+    describe '#path' do
+      it 'returns the relative path' do
+        formula.path.should eq('duplicates/php.rb')
+      end
+    end
+
+    describe '#raw_url' do
+      it 'returns the GitHub URL of the raw formula file' do
+        formula.raw_url.should eq('https://raw.github.com/adamv/homebrew-alt/HEAD/duplicates/php.rb')
+      end
+    end
+
   end
 
 end
