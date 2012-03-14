@@ -246,7 +246,9 @@ class Repository
 
         $LOAD_PATH.unshift File.join(base_repo.path, 'Library', 'Homebrew')
 
-        Object.send :remove_const, :Formula
+        if Object.const_defined? :Formula
+          Object.send :remove_const, :Formula
+        end
 
         $homebrew_path = base_repo.path
         require 'sandbox_backtick'
