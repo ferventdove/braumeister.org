@@ -33,4 +33,8 @@ class Formula
     (path.nil? ? name : File.join(path, name)) + '.rb'
   end
 
+  def raw_url
+    "https://raw.github.com/#{repository.name}/HEAD/#{path}"
+  end
+
 end
