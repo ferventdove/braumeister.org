@@ -18,7 +18,7 @@ class FormulaeController < ApplicationController
       @title = "Browse formulae – #{letter.upcase}"
       @title << " – #{@repository.name}" unless @repository.main?
 
-      @formulae = @repository.formulae.letter(letter).where removed: false
+      @formulae = @repository.formulae.letter(letter).where(removed: false).order_by([:name, :asc])
     else
       term = params[:search]
       @title = "Search for: #{term}"

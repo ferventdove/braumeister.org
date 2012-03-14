@@ -26,13 +26,11 @@ class Formula
   has_and_belongs_to_many :deps, class_name: 'Formula', inverse_of: :revdeps
   has_and_belongs_to_many :revdeps, class_name: 'Formula', inverse_of: :deps
 
+  scope :letter, ->(letter) { where(name: /^#{letter.downcase}/) }
+
   def path
     path = repository.full? ? File.join('Library', 'Formula') : self[:path]
     (path.nil? ? name : File.join(path, name)) + '.rb'
-  end
-
-  def self.letter(letter)
-    where(name: /^#{letter.downcase}/).order_by([:name, :asc])
   end
 
 end
