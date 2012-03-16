@@ -49,7 +49,17 @@ namespace :braumeister do
 
   desc 'Pulls the latest changes from one or all repositories'
   task_with_tracing :update, [:repo] => :select_repos do
-    @repos.each &:refresh
+    @repos.each do |repo|
+      begin
+        repo.refresh
+      rescue
+        if defined?(Airbrake) && !Airbrake.configuration.api_key.nil?
+          Airbrake.notify $!
+        else
+          raise $!
+        end
+      end
+    end
   end
 
 end
