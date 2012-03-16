@@ -39,7 +39,6 @@ namespace :braumeister do
       repo.sha = nil
       FileUtils.rm_rf repo.path
       repo.refresh
-      repo.save!
     end
   end
 
