@@ -16,7 +16,7 @@ group :assets do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.8.0'
+  gem 'rspec-rails', '~> 2.9.0'
 end
 
 group :production do
