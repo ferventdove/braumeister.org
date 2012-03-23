@@ -66,7 +66,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
-    mime-types (1.17.2)
+    mime-types (1.18)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     mongo (1.6.1)
