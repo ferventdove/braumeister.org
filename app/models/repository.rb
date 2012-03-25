@@ -211,8 +211,10 @@ class Repository
 
     aliases.each do |type, apath|
       name = apath.match(ALIAS_REGEX)[1]
+      formula = nil
       if type == 'D'
-        self.formulae.all_in(aliases: name).destroy_all
+        formula = self.formulae.where(aliases: name).first
+        formula.aliases.delete name
       else
         alias_path = File.join path, apath
         next unless FileTest.symlink? alias_path
@@ -221,8 +223,8 @@ class Repository
         next if formula.nil?
         formula.aliases ||= []
         formula.aliases << name
-        formula.save!
       end
+      formula.save!
     end
 
     generate_history last_sha
