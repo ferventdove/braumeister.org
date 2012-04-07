@@ -32,9 +32,9 @@ GEM
       activesupport
       builder
     arel (3.0.2)
-    bson (1.6.1)
-    bson_ext (1.6.1)
-      bson (~> 1.6.1)
+    bson (1.6.2)
+    bson_ext (1.6.2)
+      bson (~> 1.6.2)
     builder (3.0.0)
     chunky_png (1.2.5)
     compass (0.12.1)
@@ -69,8 +69,8 @@ GEM
     mime-types (1.18)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    mongo (1.6.1)
-      bson (~> 1.6.1)
+    mongo (1.6.2)
+      bson (~> 1.6.2)
     mongoid (2.4.7)
       activemodel (~> 3.1)
       mongo (~> 1.3)
