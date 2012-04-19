@@ -25,5 +25,5 @@ group :production do
 end
 
 group :test do
-  gem 'mocha', '~> 0.10.0'
+  gem 'mocha', '~> 0.11.0'
 end
