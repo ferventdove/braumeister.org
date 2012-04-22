@@ -67,7 +67,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.18)
-    mocha (0.11.0)
+    mocha (0.11.2)
       metaclass (~> 0.0.1)
     mongo (1.6.2)
       bson (~> 1.6.2)
