@@ -284,7 +284,7 @@ class Repository
 
         Marshal.dump formulae_info, pipe_write
       rescue
-        Marshal.dump RuntimeError.new("#{$!.class}: #{$!.message}"), pipe_write
+        Marshal.dump $!, pipe_write
       end
 
       pipe_write.flush
@@ -297,7 +297,9 @@ class Repository
     formulae_info = Marshal.load pipe_read
     Process.wait pid
     pipe_read.close
-    raise formulae_info if formulae_info.is_a? RuntimeError
+    if formulae_info.is_a? StandardError
+      raise formulae_info, formulae_info.message, formulae_info.backtrace
+    end
 
     formulae_info
   end
