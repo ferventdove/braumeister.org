@@ -254,15 +254,13 @@ class Repository
 
         $LOAD_PATH.unshift File.join(base_repo.path, 'Library', 'Homebrew')
 
-        if Object.const_defined? :Formula
-          Object.send :remove_const, :Formula
-        end
+        Object.send(:remove_const, :Formula) if Object.const_defined? :Formula
 
         $homebrew_path = base_repo.path
         require 'sandbox_backtick'
 
         load 'global.rb'
-        load 'formula.rb'
+        load 'formula.rb' unless Object.const_defined?(:Formula)
 
         formulae_info = {}
         formulae.each do |name|

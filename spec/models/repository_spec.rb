@@ -170,7 +170,6 @@ describe Repository do
 
       Object.expects(:remove_const).with :Formula
       repo.expects(:load).with 'global.rb'
-      repo.expects(:load).with 'formula.rb'
     end
 
     it 'clones or updates the main repository for non-full repositories' do
