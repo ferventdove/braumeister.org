@@ -214,6 +214,7 @@ class Repository
       formula = nil
       if type == 'D'
         formula = self.formulae.where(aliases: name).first
+        next if formula.nil?
         formula.aliases.delete name
       else
         alias_path = File.join path, apath
