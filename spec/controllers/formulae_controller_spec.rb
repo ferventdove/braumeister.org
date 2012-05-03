@@ -37,15 +37,27 @@ describe FormulaeController do
     end
   end
 
-  # describe '#show' do
-    # context 'when formula is not found' do
-      # before do
-        # repo = mock
-        # Repository.expects(:where).with(name: 'mxcl/homebrew').returns mock(first: repo)
-      # end
+  describe '#show' do
+    context 'when formula is not found' do
+      subject { get :show, repository_id: 'adamv/homebrew-alt', id: 'git' }
 
-      # it { should render_template(:not_found) }
-    # end
-  # end
+      before do
+        repo = mock
+        formulae = mock
+        Repository.expects(:find).with('adamv/homebrew-alt'.identify).
+          returns repo
+        repo.expects(:formulae).twice.returns formulae
+        formulae.expects(:where).returns []
+        formulae.expects(:all_in).returns []
+
+        @controller.stubs :index
+      end
+
+      it do
+        should render_template('application/index')
+        flash.now[:error].should eq('The page you requested does not exist.')
+      end
+    end
+  end
 
 end
