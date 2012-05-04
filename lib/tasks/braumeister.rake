@@ -22,6 +22,20 @@ else
   end
 end
 
+if defined?(Airbrake) && !Airbrake.configuration.api_key.nil?
+  def airbrake_rescued(&action)
+    begin
+      action.call
+    rescue
+      Airbrake.notify $!
+    end
+  end
+else
+  def airbrake_rescued(&action)
+    action.call
+  end
+end
+
 namespace :braumeister do
 
   Rails.logger = Logger.new STDOUT
@@ -50,15 +64,7 @@ namespace :braumeister do
   desc 'Pulls the latest changes from one or all repositories'
   task_with_tracing :update, [:repo] => :select_repos do
     @repos.each do |repo|
-      begin
-        repo.refresh
-      rescue
-        if defined?(Airbrake) && !Airbrake.configuration.api_key.nil?
-          Airbrake.notify $!
-        else
-          raise $!
-        end
-      end
+      airbrake_rescued { repo.refresh }
     end
   end
 
