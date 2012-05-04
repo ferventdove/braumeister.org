@@ -1,11 +1,23 @@
 ---
-<%= ENV["RAILS_ENV"] %>:
-  ssl: false
-  monitor_mode: true
+common: &default_settings
+  app_name: <%= ENV["NEW_RELIC_APPNAME"] || 'braumeister.org' %>
   license_key: <%= ENV["NEW_RELIC_LICENSE_KEY"] %>
+  monitor_mode: true
+  ssl: false
   developer_mode: false
-  app_name: <%= ENV["NEW_RELIC_APPNAME"] %>
   capture_params: true
   log_level: warn
   background:
     monitor_mode: true
+
+development:
+  <<: *default_settings
+  monitor_mode: false
+  developer_mode: true
+
+test:
+  <<: *default_settings
+  monitor_mode: false
+
+production:
+  <<: *default_settings
