@@ -10,7 +10,7 @@ describe Formula do
   context 'for a formula in a full repository' do
 
     let(:formula) do
-      repo = Repository.new name: 'mxcl/homebrew', full: true
+      repo = Repository.new name: Repository::MAIN, full: true
       Formula.new name: 'git', repository: repo
     end
 
@@ -22,7 +22,7 @@ describe Formula do
 
     describe '#raw_url' do
       it 'returns the GitHub URL of the raw formula file' do
-        formula.raw_url.should eq('https://raw.github.com/mxcl/homebrew/HEAD/Library/Formula/git.rb')
+        formula.raw_url.should eq("https://raw.github.com/#{Repository::MAIN}/HEAD/Library/Formula/git.rb")
       end
     end
 

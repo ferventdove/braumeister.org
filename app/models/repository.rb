@@ -8,7 +8,8 @@ class Repository
   include Mongoid::Document
   include Mongoid::Timestamps::Updated
 
-  ALIAS_REGEX   = /^(?:Library\/)?Aliases\/(.+?)$/
+  ALIAS_REGEX = /^(?:Library\/)?Aliases\/(.+?)$/
+  MAIN        = 'mxcl/homebrew'
 
   field :date, type: Time
   field :full, type: Boolean, default: false
@@ -21,7 +22,7 @@ class Repository
   has_many :revisions, dependent: :destroy
 
   def self.main
-    Repository.find 'mxcl/homebrew'.identify
+    find MAIN.identify
   end
 
   def clone_or_pull
@@ -152,7 +153,7 @@ class Repository
   end
 
   def main?
-    name == 'mxcl/homebrew'
+    name == MAIN
   end
 
   def path

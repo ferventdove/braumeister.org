@@ -7,19 +7,19 @@ require 'spec_helper'
 
 describe Repository do
 
-  let(:repo) { Repository.new name: 'mxcl/homebrew', full: true }
+  let(:repo) { Repository.new name: Repository::MAIN, full: true }
 
   describe '.main' do
-    it 'returns the repository object for mxcl/homebrew' do
+    it "returns the repository object for #{Repository::MAIN}" do
       repo = mock
-      Repository.expects(:find).with('mxcl/homebrew'.identify).returns repo
+      Repository.expects(:find).with(Repository::MAIN.identify).returns repo
 
       Repository.main.should eq(repo)
     end
   end
 
   describe '#main?' do
-    it 'returns true for mxcl/homebrew' do
+    it "returns true for #{Repository::MAIN}" do
       repo.main?.should be_true
     end
 
@@ -30,13 +30,13 @@ describe Repository do
 
   describe '#path' do
     it 'returns the filesystem path of the Git repository' do
-      repo.path.should eq("#{Braumeister::Application.tmp_path}/repos/mxcl/homebrew")
+      repo.path.should eq("#{Braumeister::Application.tmp_path}/repos/#{Repository::MAIN}")
     end
   end
 
   describe '#url' do
     it 'returns the Git URL of the GitHub repository' do
-      repo.url.should eq('git://github.com/mxcl/homebrew.git')
+      repo.url.should eq("git://github.com/#{Repository::MAIN}.git")
     end
   end
 
