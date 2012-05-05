@@ -16,6 +16,10 @@ group :assets do
   gem 'uglifier', '~> 1.2.1'
 end
 
+group 'development' do
+  gem 'ruby-prof', '~> 0.10.8'
+end
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.10.0'
 end
