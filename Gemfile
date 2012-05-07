@@ -17,7 +17,7 @@ group :assets do
 end
 
 group 'development' do
-  gem 'ruby-prof', '~> 0.10.8', platforms: :ruby
+  gem 'ruby-prof', '~> 0.11.2', platforms: :ruby
 end
 
 group :development, :test do
