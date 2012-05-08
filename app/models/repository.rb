@@ -262,7 +262,12 @@ class Repository
         require 'sandbox_backtick'
 
         load 'global.rb'
-        load 'formula.rb' unless Object.const_defined?(:Formula)
+        if Object.const_defined? :Formula
+          class << Formula
+            remove_method(:method_added) if method_defined? :method_added
+          end
+        end
+        load 'formula.rb'
 
         formulae_info = {}
         formulae.each do |name|
