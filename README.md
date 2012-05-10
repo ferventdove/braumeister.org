@@ -22,6 +22,24 @@ There are other, probably better methods of IPC like shared memory, but piping
 was easy to implement and proved to be fast enough even for full indexing with
 several hundred formulae.
 
+## Local setup
+
+If you clone the repository from GitHub it's pretty easy to get started with
+a working local copy. You'll need to create a local MongoDB database first:
+
+```bash
+mongo
+> use braumeister
+> db.addUser("braumeister", "braumeister")
+```
+
+After that you can run the following commands:
+
+```ruby
+rake db:seed
+rails server
+```
+
 ## Contribute
 
 braumeister.org is an open-source project. Therefore you are free to help
