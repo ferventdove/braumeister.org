@@ -25,7 +25,7 @@ group :development, :test do
 end
 
 group :production do
-  gem 'airbrake', '~> 3.0.9'
+  gem 'airbrake', '~> 3.1.0'
 end
 
 group :test do
